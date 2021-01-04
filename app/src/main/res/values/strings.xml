@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QuizAppPlus</string>
+    <string name="final_score">Puntuaciones Finales</string>
 </resources>
