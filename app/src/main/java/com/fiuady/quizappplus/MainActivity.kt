@@ -47,6 +47,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(option)
 
         }
+        puntuaciones_button.setOnClickListener { _ ->
+            val puntuaciones = Intent(this@MainActivity, Puntuaciones::class.java)
+            startActivity(puntuaciones)
+
+        }
 
     }
 
