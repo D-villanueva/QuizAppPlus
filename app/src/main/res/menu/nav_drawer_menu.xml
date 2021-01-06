@@ -2,14 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item1"
-        android:title="item1"/>
+        android:id="@+id/agregar"
+        android:title="Añadir"
+        android:icon="@drawable/add_perfil"/>
 
     <item
-        android:id="@+id/item2"
-        android:title="item2"/>
+        android:id="@+id/cambiar"
+        android:title="Cambiar usuario"
+        android:icon="@drawable/change"/>
     <item
-        android:id="@+id/item3"
-        android:title="item3"/>
+        android:id="@+id/Editar"
+        android:title="Editar "
+        android:icon="@drawable/edit"/>
+    <item
+        android:id="@+id/item4"
+        android:title="Eliminar"
+        android:icon="@drawable/delete"/>
 
 </menu>
