@@ -78,7 +78,7 @@
             android:layout_margin="15dp"
             android:background="@drawable/button_three"
             android:padding="15dp"
-            android:text="@string/opciones"
+            android:text="@string/puntaje"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
