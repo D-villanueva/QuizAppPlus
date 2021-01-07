@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
     tableName = "users",
     indices = [Index(value = ["name"], unique = true)]
 )
+
 data class User(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") var name: String
