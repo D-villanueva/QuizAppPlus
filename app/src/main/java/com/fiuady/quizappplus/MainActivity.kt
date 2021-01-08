@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import com.fiuady.quizappplus.db.AppDatabase
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var TextInicio:TextView
     lateinit var toggle: ActionBarDrawerToggle
@@ -37,6 +39,15 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.agregar-> dialogoUser()
+            }
+            true
+        }
+
+
+
 
 
         TextInicio=findViewById(R.id.titulo)
@@ -61,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onOptionsItemSelected(item:MenuItem):Boolean{
         if(toggle.onOptionsItemSelected(item)){
             return true
@@ -71,8 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun dialogoUser(){
 
         val builder = AlertDialog.Builder(this)
-        val inflater =
-            LayoutInflater.from(this@MainActivity).context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater =LayoutInflater.from(this@MainActivity).context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val medio = inflater.inflate(R.layout.agregar_usuarios, null)
         builder.setTitle("Nuevo Usuario")
         builder.setView(medio).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
@@ -83,5 +94,7 @@ class MainActivity : AppCompatActivity() {
         builder.show()
 
     }
+
+
 
 }
