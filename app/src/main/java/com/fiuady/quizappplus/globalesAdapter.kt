@@ -14,7 +14,7 @@ class globalesAdapter ( private val puntosusers : Array<globales>) :
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): globalesHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_item, parent, false)
+            .inflate(R.layout.puntuaciones_globales, parent, false)
         return globalesHolder(view)
     }
 
