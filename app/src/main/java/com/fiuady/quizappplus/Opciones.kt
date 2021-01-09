@@ -25,12 +25,7 @@ class Opciones : AppCompatActivity() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
 
-                db.execSQL("INSERT INTO themes(id,title)VALUES(0,Cine)");
-                db.execSQL("INSERT INTO themes (id,title) VALUES (1,Musica)");
-                db.execSQL("INSERT INTO themes (id,title) VALUES (2,Ciencia)");
-                db.execSQL("INSERT INTO themes (id,title) VALUES (3,Deportes)");
-                db.execSQL("INSERT INTO themes (id,title) VALUES (4, Arte)");
-                db.execSQL("INSERT INTO themes (id,title) VALUES (5,Videojuegos)");
+
             }
         }).build()
 
