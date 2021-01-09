@@ -2,26 +2,28 @@ package com.fiuady.quizappplus
 
 import android.content.Intent
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import com.fiuady.quizappplus.db.AppDatabase
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
-import com.facebook.stetho.Stetho
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.facebook.stetho.Stetho
+import com.fiuady.quizappplus.db.AppDatabase
 import com.fiuady.quizappplus.db.User
+import kotlinx.android.synthetic.main.activity_final_score.view.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_puntuaciones.*
 import kotlinx.android.synthetic.main.agregar_usuarios.*
 import kotlinx.android.synthetic.main.agregar_usuarios.view.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.rv_item.*
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +50,8 @@ class MainActivity : AppCompatActivity() {
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-//                    db.execSQL("INSERT INTO users(id, nombre) VALUES (0, 'Diego')")
+                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (0, 'Diego', 0)")
+                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (1, 'David', 1)")
 //                    db.execSQL("INSERT INTO User(id, nombre) VALUES (1, 'David')")
                     //db.execSQL("INSERT INTO users VALUES (1, 'David')")
                     //db.execSQL("INSERT INTO User VALUES (3,'Jose')")
@@ -73,11 +76,7 @@ class MainActivity : AppCompatActivity() {
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
 
-
-        if (db.usersDao().getNumber() == 0) {
-            dialogoUser(db)
-        }
-
+        val usuario_activo = db.usersDao().getActiveUser()
 
         toggle = ActionBarDrawerToggle(
             this@MainActivity,
@@ -88,15 +87,27 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val header: View = navView.getHeaderView(0)
+        var usuario: TextView = header.findViewById(R.id.user_activenow)
+        usuario.text= usuario_activo.name
+        usuario_activo.name
         navView.setNavigationItemSelectedListener {
+
+
             when (it.itemId) {
                 R.id.agregar -> dialogoUser(db)
+                R.id.Editar -> EditUser(db)
             }
             true
         }
 
 
 
+
+
+        if (db.usersDao().getNumber() == 0) {
+            dialogoUser(db)
+        }
 
 
         TextInicio = findViewById(R.id.titulo)
@@ -142,14 +153,14 @@ class MainActivity : AppCompatActivity() {
         builder.setView(medio).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
             .setNegativeButton("cancel") { dialog, id -> dialog.cancel() }
         builder.setIcon(R.drawable.face_global)
-
+        var usuario_text: EditText = medio.findViewById(R.id.username)
         builder.setPositiveButton("OK") { _, id ->
 
 
-            val nombreUsuario= username.text.toString() //este codigo no funciona, inserta en esta variable el texto del edittext
+            //val nombreUsuario= username.text.toString() //este codigo no funciona, inserta en esta variable el texto del edittext
 
 
-            val usuario = User(db.usersDao().getNumber(), nombreUsuario)
+            val usuario = User(db.usersDao().getNumber(), usuario_text.text.toString(), 0)
             db.usersDao().insertUser(usuario)
 
         }
@@ -158,5 +169,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun EditUser(db: AppDatabase) {
+        val edituser = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this@MainActivity).context.getSystemService(
+            LAYOUT_INFLATER_SERVICE
+        ) as LayoutInflater
+        val usuario_activo = db.usersDao().getActiveUser()
+        val editview = inflater.inflate(R.layout.agregar_usuarios, null)
+
+        edituser.setTitle("Editar usuario")
+
+        edituser.setView(editview).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
+            .setNegativeButton("cancel") { dialog, id -> dialog.cancel() }
+        edituser.setIcon(R.drawable.face_global)
+        var usuario_text: EditText = editview.findViewById(R.id.username)
+        edituser.setPositiveButton("OK") { _, id ->
+
+            val usuario = User(usuario_activo.id, usuario_text.text.toString(), 1)
+            db.usersDao().updateUser(usuario)
+
+        }
+        edituser.create()
+        edituser.show()
+
+    }
 
 }

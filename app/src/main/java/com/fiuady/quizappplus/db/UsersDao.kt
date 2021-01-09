@@ -5,9 +5,17 @@ import androidx.room.*
 @Dao
 interface UsersDao {
     @Query(" SELECT COUNT(*) FROM users")
-     fun getNumber(): Int
+    fun getNumber(): Int
 
-     @Insert
-     fun insertUser(user: User)
-     //@Query("INSERT INTO users(id, nombre) ")
+    @Query("SELECT * FROM users")
+    fun getUsers(): List<User>
+
+    @Query("SELECT * FROM users WHERE activo = 1")
+    fun getActiveUser(): User
+
+    @Insert
+    fun insertUser(user: User)
+
+    @Update
+    fun updateUser(user: User)
 }
