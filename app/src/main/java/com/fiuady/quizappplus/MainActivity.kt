@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.activity.viewModels
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -39,31 +41,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //inicializa la base de datos y el stheto
-
+        val dbBuilder: DbBuilder by viewModels()
         Stetho.initializeWithDefaults(this);
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "quizapp.db"
-        ).allowMainThreadQueries()
-            .addCallback(object : RoomDatabase.Callback() {
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (0, 'Diego', 0)")
-                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (1, 'David', 1)")
-                    //temas
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (0, 'Cine')");
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (1, 'Musica')");
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (2, 'Ciencia')");
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (3, 'Deportes')");
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (4, 'Arte')");
-                    db.execSQL("INSERT INTO themes (id, title) VALUES (5, 'Videojuegos')");
-                    //preguntas
-                    db.execSQL("INSERT INTO Questions VALUES (0, 1, 'Pensamos demasiado y sentimos muy poco')")
-
-                }
-
-            }).build()
+        val db = dbBuilder.buildBd(this)
 
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)

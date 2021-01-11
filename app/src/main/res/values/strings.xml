@@ -6,4 +6,19 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="puntaje">Puntaje</string>
+
+    <string name="question_text_1">"Pensamos demasiado y sentimos muy poco"</string>
+    <string name="question_answer_1a">El Gran Dictador</string>
+    <string name="question_answer_1b">Vida de Perros</string>
+    <string name="question_answer_1c">El gordo y el flaco</string>
+    <string name="question_answer_1d">La clase osciosa</string>
+    <string name="respuesta_correcta1">El Gran Dictador</string>
+
+    <string name="question_text_2">Hakuna Matata</string>
+    <string name="question_answer_2a">Pinocho</string>
+    <string name="question_answer_2b">Zootopia</string>
+    <string name="question_answer_2c">El Rey LeÃ³n</string>
+    <string name="question_answer_2d">Cenicienta</string>
+    <string name="respuesta_correcta2">El Rey LeÃ³n</string>
+
 </resources>

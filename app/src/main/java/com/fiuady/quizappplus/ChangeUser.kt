@@ -6,31 +6,39 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.activity.viewModels
+import com.facebook.stetho.Stetho
+import com.fiuady.quizappplus.db.User
 
 class ChangeUser : AppCompatActivity() {
 
-private lateinit var searchview:SearchView
-private lateinit var Listusers:ListView
+    private lateinit var searchview: SearchView
+    private lateinit var Listusers: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_user)
+        val dbBuilder: DbBuilder by viewModels()
+        val db = dbBuilder.buildBd(this)
+        searchview = findViewById(R.id.Searchview)
+        Listusers = findViewById(R.id.Listusers)
 
-        searchview=findViewById(R.id.Searchview)
-        Listusers=findViewById(R.id.Listusers)
+        val usuarios = db.usersDao().getUsers()
+        val nombres = ArrayList<String>()
+        for (User in usuarios) {
+            nombres.add(User.name)
+        }
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, nombres)
 
-        val names= arrayOf("user1","user2","user1","user 4")
-        val adapter:ArrayAdapter<String> = ArrayAdapter(this,android.R.layout.simple_list_item_1,names)
-
-        Listusers.adapter=adapter
-        searchview.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+        Listusers.adapter = adapter
+        searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-               searchview.clearFocus()
-                if(names.contains(p0)){
+                searchview.clearFocus()
+                if (nombres.contains(p0)) {
                     adapter.filter.filter(p0)
-                }
-                else{
-                    Toast.makeText(applicationContext,"User not found",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "User not found", Toast.LENGTH_SHORT).show()
                 }
                 return false
             }
