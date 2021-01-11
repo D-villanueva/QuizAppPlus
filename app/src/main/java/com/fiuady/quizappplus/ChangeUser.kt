@@ -22,6 +22,7 @@ class ChangeUser : AppCompatActivity() {
         setContentView(R.layout.activity_change_user)
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
+
         searchview = findViewById(R.id.Searchview)
         Listusers = findViewById(R.id.Listusers)
 
@@ -37,12 +38,10 @@ class ChangeUser : AppCompatActivity() {
 
         Listusers.setOnItemClickListener { parent, view, position, id ->
 
-                val uposition=names.get(position)
+                val uposition=nombres.get(position)
                 Toast.makeText(applicationContext,"item on clicked $uposition",Toast.LENGTH_SHORT).show()
 
         }
-
-
 
         searchview.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {

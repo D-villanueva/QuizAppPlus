@@ -4,10 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class Puntuaciones : AppCompatActivity(){
+class  Puntuaciones : AppCompatActivity(),OnUserClickListener{
 
     private lateinit var recyclerView:RecyclerView
     private lateinit var viewAdapter:RecyclerView.Adapter<*>
@@ -31,17 +32,22 @@ class Puntuaciones : AppCompatActivity(){
            globales("usuario 12",500),
 
        )
-        viewAdapter=globalesAdapter(puntosusers)
+
+
+        viewAdapter=globalesAdapter(puntosusers,this)
         recyclerView=findViewById<RecyclerView>(R.id.puntuaciones ).apply {
-        setHasFixedSize(true)
+            setHasFixedSize(true)
 
             layoutManager = LinearLayoutManager(this@Puntuaciones)
             adapter=viewAdapter
+
         }
+
     }
-    //override fun OnUserClick(position:Int){
-      //  val detailUser = Intent(this@Puntuaciones, DetailUser::class.java)
-       // startActivity(detailUser)
-    //}
+
+    override fun onUserClicked(position: Int) {
+        val intent=Intent(this,DetailUser::class.java)
+        startActivity(intent)
+    }
 
 }
