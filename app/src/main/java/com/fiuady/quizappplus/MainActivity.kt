@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_puntuaciones.*
 import kotlinx.android.synthetic.main.agregar_usuarios.*
 import kotlinx.android.synthetic.main.agregar_usuarios.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import kotlinx.android.synthetic.main.rv_item.*
+import kotlinx.android.synthetic.main.puntuaciones_globales.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jugar_button: Button
     private lateinit var opciones_button: Button
     private lateinit var puntuaciones_button: Button
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +51,6 @@ class MainActivity : AppCompatActivity() {
                     super.onCreate(db)
                     db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (0, 'Diego', 0)")
                     db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (1, 'David', 1)")
-//                    db.execSQL("INSERT INTO User(id, nombre) VALUES (1, 'David')")
-                    //db.execSQL("INSERT INTO users VALUES (1, 'David')")
-                    //db.execSQL("INSERT INTO User VALUES (3,'Jose')")
                     //temas
                     db.execSQL("INSERT INTO themes (id, title) VALUES (0, 'Cine')");
                     db.execSQL("INSERT INTO themes (id, title) VALUES (1, 'Musica')");
@@ -65,12 +61,9 @@ class MainActivity : AppCompatActivity() {
                     //preguntas
                     db.execSQL("INSERT INTO Questions VALUES (0, 1, 'Pensamos demasiado y sentimos muy poco')")
 
-
                 }
 
             }).build()
-
-
 
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
@@ -97,18 +90,15 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.agregar -> dialogoUser(db)
                 R.id.Editar -> EditUser(db)
+               R.id.cambiar_usuarios->changeUser()
+
             }
             true
         }
 
-
-
-
-
         if (db.usersDao().getNumber() == 0) {
             dialogoUser(db)
         }
-
 
         TextInicio = findViewById(R.id.titulo)
         TextInicio.typeface = Typeface.createFromAsset(assets, "fonts/Balamoa.ttf")
@@ -120,7 +110,6 @@ class MainActivity : AppCompatActivity() {
 
         opciones_button.setOnClickListener { _ ->
             val option = Intent(this@MainActivity, Opciones::class.java)
-
             startActivity(option)
 
         }
@@ -140,6 +129,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun changeUser(){
+        val option = Intent(this@MainActivity, ChangeUser::class.java)
+        startActivity(option)
+    }
+
     private fun dialogoUser(db: AppDatabase) {
         val builder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this@MainActivity).context.getSystemService(
@@ -149,20 +143,13 @@ class MainActivity : AppCompatActivity() {
         val medio = inflater.inflate(R.layout.agregar_usuarios, null)
 
         builder.setTitle("Nuevo Usuario")
-
         builder.setView(medio).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
             .setNegativeButton("cancel") { dialog, id -> dialog.cancel() }
         builder.setIcon(R.drawable.face_global)
         var usuario_text: EditText = medio.findViewById(R.id.username)
         builder.setPositiveButton("OK") { _, id ->
-
-
-            //val nombreUsuario= username.text.toString() //este codigo no funciona, inserta en esta variable el texto del edittext
-
-
             val usuario = User(db.usersDao().getNumber(), usuario_text.text.toString(), 0)
             db.usersDao().insertUser(usuario)
-
         }
         builder.create()
         builder.show()
@@ -176,18 +163,14 @@ class MainActivity : AppCompatActivity() {
         ) as LayoutInflater
         val usuario_activo = db.usersDao().getActiveUser()
         val editview = inflater.inflate(R.layout.agregar_usuarios, null)
-
         edituser.setTitle("Editar usuario")
-
         edituser.setView(editview).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
             .setNegativeButton("cancel") { dialog, id -> dialog.cancel() }
         edituser.setIcon(R.drawable.face_global)
         var usuario_text: EditText = editview.findViewById(R.id.username)
         edituser.setPositiveButton("OK") { _, id ->
-
             val usuario = User(usuario_activo.id, usuario_text.text.toString(), 1)
             db.usersDao().updateUser(usuario)
-
         }
         edituser.create()
         edituser.show()

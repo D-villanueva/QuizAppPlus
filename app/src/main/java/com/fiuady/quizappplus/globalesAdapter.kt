@@ -1,12 +1,13 @@
-package com.fiuady.quizappplus
+    package com.fiuady.quizappplus
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
 
-class globalesAdapter ( private val puntosusers : Array<globales>) :
+    class globalesAdapter ( private val puntosusers : Array<globales>) :
     RecyclerView.Adapter<globalesAdapter.globalesHolder>() {
 
     class globalesHolder(val view: View) : RecyclerView.ViewHolder(view)
@@ -22,8 +23,8 @@ class globalesAdapter ( private val puntosusers : Array<globales>) :
     override fun onBindViewHolder(holder: globalesHolder, position: Int) {
         //llenar el holder con la informacion que debe llevar
         holder.view.findViewById<TextView>(R.id.user).text=puntosusers[position].User
-
         holder.view.findViewById<TextView>(R.id.puntos_globales).text= puntosusers[position].Puntos.toString()
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

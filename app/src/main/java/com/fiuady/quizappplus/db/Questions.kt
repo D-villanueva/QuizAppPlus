@@ -12,6 +12,5 @@ data class Questions (
     @ColumnInfo(name = "theme_id") val theme_id: Int,
     @ColumnInfo(name = "question_text") val question_text: String,
 
-
 )
 

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/agregar"
-        android:title="Añadir"
-        android:icon="@drawable/add_perfil"/>
+        android:icon="@drawable/add_perfil"
+        android:title="Añadir" />
 
     <item
-        android:id="@+id/cambiar"
-        android:title="Cambiar usuario"
-        android:icon="@drawable/change"/>
+        android:id="@+id/cambiar_usuarios"
+        android:icon="@drawable/change"
+        android:title="Cambiar usuario" />
     <item
         android:id="@+id/Editar"
-        android:title="Editar "
-        android:icon="@drawable/edit"/>
+        android:icon="@drawable/edit"
+        android:title="Editar " />
     <item
         android:id="@+id/item4"
-        android:title="Eliminar"
-        android:icon="@drawable/delete"/>
+        android:icon="@drawable/delete"
+        android:title="Eliminar" />
 
 </menu>

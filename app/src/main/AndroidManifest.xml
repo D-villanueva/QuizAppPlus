@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <activity android:name=".Puntuaciones"></activity>
+        <activity android:name=".DetailUser"></activity>
+        <activity android:name=".ChangeUser" />
+        <activity android:name=".Puntuaciones" />
         <activity android:name=".Opciones" />
         <activity android:name=".final_score" />
         <activity android:name=".game" />
