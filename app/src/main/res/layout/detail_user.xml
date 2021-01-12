@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="horizontal"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/calendar" />
+
+            <TextView
+                android:id="@+id/fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/calendar"
+                android:layout_toRightOf="@+id/calendar"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="22-02-20" />
+
+            <ImageView
+                android:id="@+id/pistas"
+                android:layout_width="26dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toEndOf="@+id/fecha"
+                android:layout_toRightOf="@+id/fecha"
+                android:src="@drawable/pistas" />
+
+            <TextView
+                android:id="@+id/pistas_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/pistas"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/pistas"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="3" />
+
+            <ImageView
+                android:id="@+id/levelimage"
+                android:layout_width="26dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toEndOf="@+id/pistas_number"
+                android:layout_toRightOf="@+id/pistas_number"
+                android:src="@drawable/level" />
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/levelimage"
+                android:layout_toRightOf="@+id/levelimage"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="easy" />
+
+            <ImageView
+                android:id="@+id/scoreimage"
+                android:layout_width="26dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="3dp"
+                android:layout_toStartOf="@+id/puntos"
+                android:layout_toRightOf="@+id/puntos"
+                android:src="@drawable/estrella_global"
+                android:layout_toLeftOf="@+id/puntos" />
+
+            <TextView
+                android:id="@+id/puntos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="1000" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -35,51 +35,41 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/face_global" />
 
-            <LinearLayout
-                android:id="@+id/linearuser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_toEndOf="@+id/iconview"
-                android:layout_toRightOf="@+id/iconview"
-                android:orientation="vertical">
+
 
                 <TextView
                     android:id="@+id/user"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
                     android:textSize="22sp"
                     tools:text="Usuarios" />
 
-            </LinearLayout>
+
+
 
             <ImageView
                 android:id="@+id/iconpuntos"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="220dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:src="@drawable/estrella_global" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_toStartOf="@+id/puntos_globales"
+                android:src="@drawable/estrella_global"
+                android:layout_toLeftOf="@+id/puntos_globales" />
 
             <TextView
                 android:id="@+id/puntos_globales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="250dp"
-                android:layout_marginBottom="2dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                tools:text="puntaje" />
+                tools:text="puntaje"
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
 
