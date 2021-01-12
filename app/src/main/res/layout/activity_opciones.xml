@@ -212,7 +212,6 @@
 
 
         <RadioButton
-            android:checked="true"
             android:id="@+id/nivel_alto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

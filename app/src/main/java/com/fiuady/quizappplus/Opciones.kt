@@ -1,5 +1,6 @@
 package com.fiuady.quizappplus
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -28,6 +29,7 @@ class Opciones : AppCompatActivity() {
     private lateinit var medio: RadioButton
     private lateinit var bajo: RadioButton
 
+    var dificultad = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +51,15 @@ class Opciones : AppCompatActivity() {
         Alto = findViewById(R.id.nivel_alto)
         medio = findViewById(R.id.nivel_medio)
         bajo = findViewById(R.id.nivel_bajo)
+
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
+
+        when (settings.dificulty) {
+            1 -> bajo.isChecked=true
+            2 -> medio.isChecked=true
+            3 -> Alto.isChecked=true
+        }
 
         //if(settings.cine==0){cine_checkbox.isChecked=true}
         cine_checkbox.isChecked = settings.cine != 0
@@ -59,6 +68,7 @@ class Opciones : AppCompatActivity() {
         musica_checkbox.isChecked = settings.musica != 0
         arte_checkbox.isChecked = settings.arte != 0
         videojuegos_checkbox.isChecked = settings.videojuegos != 0
+
 
         if (todoschek.isChecked) {
             ciencia_checkbox.isChecked = true
@@ -86,6 +96,27 @@ class Opciones : AppCompatActivity() {
                 videojuegos_checkbox.isChecked = true
             }
         }
-
     }
+    fun selectdificulty() {
+        if (Alto.isChecked) dificultad = 3
+        if (medio.isChecked) dificultad = 2
+        if (bajo.isChecked) dificultad = 1
+    }
+
+    override fun onBackPressed() {
+        val dbBuilder: DbBuilder by viewModels()
+        val db = dbBuilder.buildBd(this)
+
+
+        selectdificulty()
+        val usuario_activo = db.usersDao().getActiveUser()
+        db.settingsDao().senddificulty(dificultad,usuario_activo.id)
+        super.onBackPressed()
+    }
+
+
+
+
+
+
 }
