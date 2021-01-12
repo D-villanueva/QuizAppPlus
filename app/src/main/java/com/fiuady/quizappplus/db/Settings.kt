@@ -14,6 +14,7 @@ data class Settings (
     var musica:Int,
     var arte:Int,
     var videojuegos:Int,
+    var dificulty:Int, //se coloca la dificultad ya que se habia olvidado
     var hints:Int,
     var hintsquantity:Int
 )
