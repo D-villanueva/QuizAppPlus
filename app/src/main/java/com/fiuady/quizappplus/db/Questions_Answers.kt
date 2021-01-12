@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
     indices=[Index(value=["question_id"],unique=true)]
     )
 data class Questions_Answers(
+
     @PrimaryKey @ColumnInfo(name="question_id") val question_id: Int,
     @ColumnInfo(name = "answer_text") val answer_text: String,
     @ColumnInfo(name = "answer") val answer: Boolean,
