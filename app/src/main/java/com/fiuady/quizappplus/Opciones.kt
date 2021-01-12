@@ -60,9 +60,6 @@ class Opciones : AppCompatActivity() {
         arte_checkbox.isChecked = settings.arte != 0
         videojuegos_checkbox.isChecked = settings.videojuegos != 0
 
-
-
-
         if (todoschek.isChecked) {
             ciencia_checkbox.isChecked = true
             cine_checkbox.isChecked = true
