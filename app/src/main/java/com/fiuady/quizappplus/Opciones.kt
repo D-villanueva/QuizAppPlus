@@ -76,5 +76,16 @@ class Opciones : AppCompatActivity() {
             spinnerpistas.isEnabled = false
         }
 
+        todoschek.setOnClickListener {
+            if (todoschek.isChecked) {
+                ciencia_checkbox.isChecked = true
+                cine_checkbox.isChecked = true
+                deporte_checkbox.isChecked = true
+                musica_checkbox.isChecked = true
+                arte_checkbox.isChecked = true
+                videojuegos_checkbox.isChecked = true
+            }
+        }
+
     }
 }
