@@ -69,7 +69,7 @@ class DbBuilder:ViewModel() {
 
                     //questions_answers
                     db.execSQL("INSERT INTO questions_answers VALUES (1,'El Gran Dictador',1)")
-                    db.execSQL("INSERT INTO questions_answers VALUES (1,'Vida de Perros',0)")
+                    /*db.execSQL("INSERT INTO questions_answers VALUES (1,'Vida de Perros',0)")
                     db.execSQL("INSERT INTO questions_answers VALUES (1,'El gordo y el flaco',0)")
                     db.execSQL("INSERT INTO questions_answers VALUES (1,'La clase osciosa',0)")
 
@@ -217,20 +217,7 @@ class DbBuilder:ViewModel() {
                     db.execSQL("INSERT INTO questions_answers VALUES (30,'Raccoon city',1)")
                     db.execSQL("INSERT INTO questions_answers VALUES (30,'New York',0)")
                     db.execSQL("INSERT INTO questions_answers VALUES (30,'Resident city',0)")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
                 }
 
             }).build()

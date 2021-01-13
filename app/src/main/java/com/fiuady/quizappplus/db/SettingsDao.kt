@@ -13,4 +13,7 @@ interface SettingsDao {
 
     @Query("UPDATE settings SET hints=(:h) WHERE userid=(:id) ")
     fun sendhints(h:Int,id:Int)
+
+    @Query("UPDATE settings SET hintsquantity=(:hq) WHERE userid=(:id) ")
+    fun sendhintsquantity(hq:Int,id:Int)
 }

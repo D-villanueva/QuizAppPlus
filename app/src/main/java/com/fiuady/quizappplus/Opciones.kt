@@ -29,6 +29,7 @@ class Opciones : AppCompatActivity() {
     private lateinit var medio: RadioButton
     private lateinit var bajo: RadioButton
 
+    var switchpistas=0
     var dificultad = 0
     val num_pistas = arrayOf(1, 2, 3)
     var adapterpistas: ArrayAdapter<Int>? = null
@@ -59,7 +60,6 @@ class Opciones : AppCompatActivity() {
 
         adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
         spinnerpistas.setAdapter(adapterpistas)
-        spinnerpistas.isEnabled = false
 
 
         when (settings.dificulty) {
@@ -67,6 +67,22 @@ class Opciones : AppCompatActivity() {
             2 -> medio.isChecked=true
             3 -> Alto.isChecked=true
         }
+
+        if(settings.hints==0){
+            switch.isChecked=false
+            spinnerpistas.isEnabled=false
+        }
+        else{
+            switch.isChecked=true
+            spinnerpistas.isEnabled=true
+
+            when(settings.hintsquantity){
+                1->spinnerpistas.selectedItemPosition==0
+                2->spinnerpistas.selectedItemPosition==1
+                3->spinnerpistas.selectedItemPosition==2
+            }
+        }
+
 
         //if(settings.cine==0){cine_checkbox.isChecked=true}
         cine_checkbox.isChecked = settings.cine != 0
@@ -85,9 +101,6 @@ class Opciones : AppCompatActivity() {
             arte_checkbox.isChecked = true
             videojuegos_checkbox.isChecked = true
         }
-        if (!switch.isChecked) {
-            spinnerpistas.isEnabled = false
-        }
 
         todoschek.setOnClickListener {
             if (todoschek.isChecked) {
@@ -102,9 +115,11 @@ class Opciones : AppCompatActivity() {
 
         switch.setOnCheckedChangeListener { _, _ ->
             if (!switch.isChecked) {
+                switchpistas=0
                 spinnerpistas.isEnabled = false
             }
             if (switch.isChecked) {
+                switchpistas++
                 spinnerpistas.isEnabled = true
             }
         }
@@ -124,7 +139,9 @@ class Opciones : AppCompatActivity() {
 
         selectdificulty()
         val usuario_activo = db.usersDao().getActiveUser()
+        db.settingsDao().sendhintsquantity(spinnerpistas.getSelectedItem().toString().toInt(),usuario_activo.id)
         db.settingsDao().senddificulty(dificultad,usuario_activo.id)
+        db.settingsDao().sendhints(switchpistas,usuario_activo.id)
         super.onBackPressed()
     }
 

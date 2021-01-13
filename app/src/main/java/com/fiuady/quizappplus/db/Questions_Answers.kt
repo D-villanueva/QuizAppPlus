@@ -6,12 +6,11 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName="questions_answers",
-    indices=[Index(value=["question_id"],unique=true)]
+    tableName="questions_answers"
     )
 data class Questions_Answers(
 
-    @PrimaryKey @ColumnInfo(name="question_id") val question_id: Int,
-    @ColumnInfo(name = "answer_text") val answer_text: String,
-    @ColumnInfo(name = "answer") val answer: Boolean,
+    @ColumnInfo(name="question_id") val question_id: Int,
+    @PrimaryKey @ColumnInfo(name = "answer_text") val answer_text: String,
+    @ColumnInfo(name = "answer") val answer: Int,
 )
