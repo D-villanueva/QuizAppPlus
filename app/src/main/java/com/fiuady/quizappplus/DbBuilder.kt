@@ -32,7 +32,7 @@ class DbBuilder:ViewModel() {
                     db.execSQL("INSERT INTO questions VALUES (28,5,'¿Cómo se llama el enemigo de Sonic?')")
 
                     //settings
-                    db.execSQL("INSERT INTO settings VALUES (0,1,5,1,1,1,1,1,1,1,1,1)")
+                    db.execSQL("INSERT INTO settings VALUES (0,1,5,1,1,1,1,1,1,1,0,1)")
 
                     //questions_answers
                     db.execSQL("INSERT INTO questions_answers VALUES (28,'Robotech',0)")
