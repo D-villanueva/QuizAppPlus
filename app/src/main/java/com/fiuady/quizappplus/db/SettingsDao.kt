@@ -10,4 +10,7 @@ interface SettingsDao {
 
     @Query("UPDATE settings SET dificulty=(:df) WHERE userid=(:id) ")
     fun senddificulty(df:Int,id:Int)
+
+    @Query("UPDATE settings SET hints=(:h) WHERE userid=(:id) ")
+    fun sendhints(h:Int,id:Int)
 }
