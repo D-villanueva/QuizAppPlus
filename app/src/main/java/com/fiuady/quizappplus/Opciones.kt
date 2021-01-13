@@ -29,7 +29,9 @@ class Opciones : AppCompatActivity() {
     private lateinit var medio: RadioButton
     private lateinit var bajo: RadioButton
 
-    var dificultad = 1
+    var dificultad = 0
+    val num_pistas = arrayOf(1, 2, 3)
+    var adapterpistas: ArrayAdapter<Int>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,11 @@ class Opciones : AppCompatActivity() {
 
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
+
+        adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
+        spinnerpistas.setAdapter(adapterpistas)
+        spinnerpistas.isEnabled = false
+
 
         when (settings.dificulty) {
             1 -> bajo.isChecked=true
@@ -82,10 +89,6 @@ class Opciones : AppCompatActivity() {
             spinnerpistas.isEnabled = false
         }
 
-        if (!switch.isChecked) {
-            spinnerpistas.isEnabled = false
-        }
-
         todoschek.setOnClickListener {
             if (todoschek.isChecked) {
                 ciencia_checkbox.isChecked = true
@@ -96,7 +99,18 @@ class Opciones : AppCompatActivity() {
                 videojuegos_checkbox.isChecked = true
             }
         }
+
+        switch.setOnCheckedChangeListener { _, _ ->
+            if (!switch.isChecked) {
+                spinnerpistas.isEnabled = false
+            }
+            if (switch.isChecked) {
+                spinnerpistas.isEnabled = true
+            }
+        }
+
     }
+
     fun selectdificulty() {
         if (Alto.isChecked) dificultad = 3
         if (medio.isChecked) dificultad = 2
