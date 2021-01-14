@@ -3,6 +3,7 @@ package com.fiuady.quizappplus
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.room.Room
@@ -57,9 +58,10 @@ class Opciones : AppCompatActivity() {
 
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
+
+
         adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
         spinnerpistas.setAdapter(adapterpistas)
-
 
         when (settings.dificulty) {
             1 -> bajo.isChecked=true
@@ -75,11 +77,18 @@ class Opciones : AppCompatActivity() {
             switch.isChecked=true
             spinnerpistas.isEnabled=true
         }
-        when(settings.hintsquantity){
-            1->spinnerpistas.selectedItemPosition==0
-            2->spinnerpistas.selectedItemPosition==1
-            3->spinnerpistas.selectedItemPosition==2
-        }
+
+
+        cine_checkbox.isChecked = settings.cine != 0
+        ciencia_checkbox.isChecked = settings.ciencia != 0
+        deporte_checkbox.isChecked = settings.deporte != 0
+        musica_checkbox.isChecked = settings.musica != 0
+        arte_checkbox.isChecked = settings.arte != 0
+        videojuegos_checkbox.isChecked = settings.videojuegos != 0
+
+
+
+
 
         Alto.setOnClickListener {
             dificultad = 3
@@ -104,32 +113,17 @@ class Opciones : AppCompatActivity() {
                 switchpistas=1
                 spinnerpistas.isEnabled = true
                 db.settingsDao().sendhints(switchpistas,usuario_activo.id)
+
             }
         }
+            spinnerpistas.onItemSelectedListener=object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    db.settingsDao().sendhintsquantity(num_pistas[position],usuario_activo.id)
 
-
-
-
-
-        //if(settings.cine==0){cine_checkbox.isChecked=true}
-        cine_checkbox.isChecked = settings.cine != 0
-        ciencia_checkbox.isChecked = settings.ciencia != 0
-        deporte_checkbox.isChecked = settings.deporte != 0
-        musica_checkbox.isChecked = settings.musica != 0
-        arte_checkbox.isChecked = settings.arte != 0
-        videojuegos_checkbox.isChecked = settings.videojuegos != 0
-
-        todoschek.setOnClickListener {
-            if (todoschek.isChecked) {
-                ciencia_checkbox.isChecked = true
-                cine_checkbox.isChecked = true
-                deporte_checkbox.isChecked = true
-                musica_checkbox.isChecked = true
-                arte_checkbox.isChecked = true
-                videojuegos_checkbox.isChecked = true
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
             }
-        }
-
 
 
     }
