@@ -10,7 +10,8 @@ import androidx.room.PrimaryKey
     )
 data class Questions_Answers(
 
+    @PrimaryKey val id : Int,
     @ColumnInfo(name="question_id") val question_id: Int,
-    @PrimaryKey @ColumnInfo(name = "answer_text") val answer_text: String,
+    @ColumnInfo(name = "answer_text") val answer_text: String,
     @ColumnInfo(name = "answer") val answer: Int,
 )

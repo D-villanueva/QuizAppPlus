@@ -13,6 +13,9 @@ interface UsersDao {
     @Query("SELECT * FROM users WHERE activo = 1")
     fun getActiveUser(): User
 
+    @Query("SELECT * FROM users WHERE nombre = (:usuario)")
+    fun getNewUser(usuario:String): User
+
     @Insert
     fun insertUser(user: User)
 

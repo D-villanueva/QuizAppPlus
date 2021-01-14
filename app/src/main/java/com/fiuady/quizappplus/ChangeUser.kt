@@ -34,16 +34,21 @@ class ChangeUser : AppCompatActivity() {
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(this, android.R.layout.simple_list_item_1, nombres)
 
-        Listusers.adapter=adapter
+        Listusers.adapter = adapter
 
         Listusers.setOnItemClickListener { parent, view, position, id ->
 
-                val uposition=nombres.get(position)
-                Toast.makeText(applicationContext,"item on clicked $uposition",Toast.LENGTH_SHORT).show()
+            val uposition = nombres.get(position)
+            val usuario_actual = db.usersDao().getActiveUser()
+            usuario_actual.active=0
+            db.usersDao().updateUser(usuario_actual)
+            val new_user=db.usersDao().getNewUser(uposition)
+            new_user.active=1
+            db.usersDao().updateUser(new_user)
 
         }
 
-        searchview.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+        searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchview.clearFocus()
                 if (nombres.contains(p0)) {
