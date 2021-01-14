@@ -57,7 +57,6 @@ class Opciones : AppCompatActivity() {
 
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
-
         adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
         spinnerpistas.setAdapter(adapterpistas)
 
@@ -75,13 +74,41 @@ class Opciones : AppCompatActivity() {
         else{
             switch.isChecked=true
             spinnerpistas.isEnabled=true
+        }
+        when(settings.hintsquantity){
+            1->spinnerpistas.selectedItemPosition==0
+            2->spinnerpistas.selectedItemPosition==1
+            3->spinnerpistas.selectedItemPosition==2
+        }
 
-            when(settings.hintsquantity){
-                1->spinnerpistas.selectedItemPosition==0
-                2->spinnerpistas.selectedItemPosition==1
-                3->spinnerpistas.selectedItemPosition==2
+        Alto.setOnClickListener {
+            dificultad = 3
+            db.settingsDao().senddificulty(dificultad,usuario_activo.id)
+        }
+        medio.setOnClickListener {
+            dificultad = 2
+            db.settingsDao().senddificulty(dificultad,usuario_activo.id)
+        }
+        bajo.setOnClickListener {
+            dificultad = 1
+            db.settingsDao().senddificulty(dificultad,usuario_activo.id)
+        }
+
+        switch.setOnCheckedChangeListener { _, _ ->
+            if (!switch.isChecked) {
+                switchpistas=0
+                spinnerpistas.isEnabled = false
+                db.settingsDao().sendhints(switchpistas,usuario_activo.id)
+            }
+            if (switch.isChecked) {
+                switchpistas=1
+                spinnerpistas.isEnabled = true
+                db.settingsDao().sendhints(switchpistas,usuario_activo.id)
             }
         }
+
+
+
 
 
         //if(settings.cine==0){cine_checkbox.isChecked=true}
@@ -91,16 +118,6 @@ class Opciones : AppCompatActivity() {
         musica_checkbox.isChecked = settings.musica != 0
         arte_checkbox.isChecked = settings.arte != 0
         videojuegos_checkbox.isChecked = settings.videojuegos != 0
-
-
-        if (todoschek.isChecked) {
-            ciencia_checkbox.isChecked = true
-            cine_checkbox.isChecked = true
-            deporte_checkbox.isChecked = true
-            musica_checkbox.isChecked = true
-            arte_checkbox.isChecked = true
-            videojuegos_checkbox.isChecked = true
-        }
 
         todoschek.setOnClickListener {
             if (todoschek.isChecked) {
@@ -113,37 +130,10 @@ class Opciones : AppCompatActivity() {
             }
         }
 
-        switch.setOnCheckedChangeListener { _, _ ->
-            if (!switch.isChecked) {
-                switchpistas=0
-                spinnerpistas.isEnabled = false
-            }
-            if (switch.isChecked) {
-                switchpistas++
-                spinnerpistas.isEnabled = true
-            }
-        }
+
 
     }
 
-    fun selectdificulty() {
-        if (Alto.isChecked) dificultad = 3
-        if (medio.isChecked) dificultad = 2
-        if (bajo.isChecked) dificultad = 1
-    }
-
-    override fun onBackPressed() {
-        val dbBuilder: DbBuilder by viewModels()
-        val db = dbBuilder.buildBd(this)
-
-
-        selectdificulty()
-        val usuario_activo = db.usersDao().getActiveUser()
-        db.settingsDao().sendhintsquantity(spinnerpistas.getSelectedItem().toString().toInt(),usuario_activo.id)
-        db.settingsDao().senddificulty(dificultad,usuario_activo.id)
-        db.settingsDao().sendhints(switchpistas,usuario_activo.id)
-        super.onBackPressed()
-    }
 
 
 
