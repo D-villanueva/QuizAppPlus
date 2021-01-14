@@ -2,6 +2,7 @@ package com.fiuady.quizappplus.db
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface SettingsDao {
@@ -16,4 +17,7 @@ interface SettingsDao {
 
     @Query("UPDATE settings SET hintsquantity=(:hq) WHERE userid=(:id) ")
     fun sendhintsquantity(hq:Int,id:Int)
+
+    @Update
+    fun actualizar(Settings:Settings)
 }

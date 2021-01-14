@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "settings")
 data class Settings (
-    @PrimaryKey val id :Int,
-    var userid : Int,
+    @PrimaryKey var userid : Int,
     var questionquantity:Int,
     var ciencia:Int,
     var cine:Int,

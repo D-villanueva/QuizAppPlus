@@ -30,6 +30,7 @@ class Opciones : AppCompatActivity() {
     private lateinit var medio: RadioButton
     private lateinit var bajo: RadioButton
 
+    var cont=0
     var switchpistas=0
     var dificultad = 0
     val num_pistas = arrayOf(1, 2, 3)
@@ -86,8 +87,26 @@ class Opciones : AppCompatActivity() {
         arte_checkbox.isChecked = settings.arte != 0
         videojuegos_checkbox.isChecked = settings.videojuegos != 0
 
+        if (todoschek.isChecked == true) {
+            ciencia_checkbox.isChecked = true
+            cine_checkbox.isChecked = true
+            deporte_checkbox.isChecked = true
+            musica_checkbox.isChecked = true
+            arte_checkbox.isChecked = true
+            videojuegos_checkbox.isChecked = true
+        }
 
-
+        ciencia_checkbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                cont += 1
+                settings.ciencia=1
+                db.settingsDao().actualizar(settings)
+            } else  {
+                settings.ciencia=0
+                db.settingsDao().actualizar(settings)
+            }
+           // validar()
+        }
 
 
         Alto.setOnClickListener {
@@ -125,10 +144,33 @@ class Opciones : AppCompatActivity() {
                 }
             }
 
-
     }
 
-
+    /*fun validar() {
+        when (cont) {
+            1 -> {
+                spinadp()
+                todoschek.isEnabled = true
+                todoschek.isChecked = false
+                spinner.setSelection(0)
+                spinner.isEnabled = false
+            }
+            in 2..5 -> {
+                spinadp()
+                todoschek.isEnabled = true
+                todoschek.isChecked = false
+                spinner.setSelection(0)
+                spinner.isEnabled = true
+            }
+            6 -> {
+                spinadp()
+                todoschek.isChecked = true
+                todoschek.isEnabled = false
+                spinner.setSelection(0)
+                spinner.isEnabled = true
+            }
+        }
+    }*/
 
 
 
