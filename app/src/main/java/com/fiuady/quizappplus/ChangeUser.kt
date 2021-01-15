@@ -1,21 +1,18 @@
 package com.fiuady.quizappplus
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.renderscript.Sampler
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Toast
-import androidx.core.view.get
+import android.widget.*
 import androidx.activity.viewModels
-import com.facebook.stetho.Stetho
-import com.fiuady.quizappplus.db.User
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 
 class ChangeUser : AppCompatActivity() {
 
     private lateinit var searchview: SearchView
     private lateinit var Listusers: ListView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +22,7 @@ class ChangeUser : AppCompatActivity() {
 
         searchview = findViewById(R.id.Searchview)
         Listusers = findViewById(R.id.Listusers)
+
 
         val usuarios = db.usersDao().getUsers()
         val nombres = ArrayList<String>()
@@ -45,7 +43,9 @@ class ChangeUser : AppCompatActivity() {
             val new_user=db.usersDao().getNewUser(uposition)
             new_user.active=1
             db.usersDao().updateUser(new_user)
-
+            val intent = Intent(this@ChangeUser, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -67,5 +67,6 @@ class ChangeUser : AppCompatActivity() {
         })
 
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.fiuady.quizappplus.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,7 +14,7 @@ data class Settings (
     var musica:Int,
     var arte:Int,
     var videojuegos:Int,
-    var dificulty:Int, //se coloca la dificultad ya que se habia olvidado
+    var dificulty:Int,
     var hints:Int,
     var hintsquantity:Int
 )

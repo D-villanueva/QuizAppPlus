@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var puntuaciones_button: Button
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,19 +45,14 @@ class MainActivity : AppCompatActivity() {
         val dbBuilder: DbBuilder by viewModels()
         Stetho.initializeWithDefaults(this);
         val db = dbBuilder.buildBd(this)
+        val usuario_activo = db.usersDao().getActiveUser()
 
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
 
-        val usuario_activo = db.usersDao().getActiveUser()
 
-        toggle = ActionBarDrawerToggle(
-            this@MainActivity,
-            drawer_layout,
-            R.string.open,
-            R.string.close
-        )
+        toggle = ActionBarDrawerToggle(this@MainActivity, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -64,13 +60,15 @@ class MainActivity : AppCompatActivity() {
         var usuario: TextView = header.findViewById(R.id.user_activenow)
         usuario.text= usuario_activo.name
         usuario_activo.name
-        navView.setNavigationItemSelectedListener {
 
+
+        navView.setNavigationItemSelectedListener {
 
             when (it.itemId) {
                 R.id.agregar -> dialogoUser(db)
                 R.id.Editar -> EditUser(db)
-               R.id.cambiar_usuarios->changeUser()
+                R.id.cambiar_usuarios->changeUser()
+                R.id.delete->DeleteUser()
 
             }
             true
@@ -110,8 +108,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeUser(){
-        val option = Intent(this@MainActivity, ChangeUser::class.java)
-        startActivity(option)
+        val changeUser = Intent(this@MainActivity, ChangeUser::class.java)
+        startActivity(changeUser)
     }
 
     private fun dialogoUser(db: AppDatabase) {
@@ -154,6 +152,21 @@ class MainActivity : AppCompatActivity() {
         }
         edituser.create()
         edituser.show()
+
+    }
+
+    private fun DeleteUser() {
+        val deleteuser = AlertDialog.Builder(this)
+        deleteuser.setTitle("Delete user")
+        deleteuser.setMessage("Are you shure?")
+        deleteuser.setPositiveButton("DELETE") { _, id ->
+            val changeUser = Intent(this@MainActivity, ChangeUser::class.java)
+            startActivity(changeUser)
+        }
+            .setNegativeButton("CANCEL") { dialog, id -> dialog.cancel() }
+        deleteuser.setIcon(R.drawable.face_global)
+        deleteuser.create()
+        deleteuser.show()
 
     }
 

@@ -1,20 +1,15 @@
 package com.fiuady.quizappplus.db
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
+
 
 @Dao
 interface SettingsDao {
     @Query("SELECT * FROM settings WHERE userid = (:id)")
     fun getsettings(id: Int): Settings
 
-    @Query("UPDATE settings SET hints=(:h) WHERE userid=(:id) ")
-    fun sendhints(h:Int,id:Int)
-
-    @Query("UPDATE settings SET hintsquantity=(:hq) WHERE userid=(:id) ")
-    fun sendhintsquantity(hq:Int,id:Int)
-
     @Update
-    fun actualizar(Settings:Settings)
+   fun actualizar(Settings: Settings)
+
+
 }
