@@ -16,5 +16,6 @@ data class Settings (
     var videojuegos:Int,
     var dificulty:Int,
     var hints:Int,
-    var hintsquantity:Int
+    var hintsquantity:Int,
+    var topicsarray:String
 )
