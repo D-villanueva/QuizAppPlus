@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "settings")
 data class Settings (
-    @PrimaryKey var userid : Int,
-    var questionquantity:Int,
-    var ciencia:Int,
-    var cine:Int,
-    var deporte:Int,
-    var musica:Int,
-    var arte:Int,
-    var videojuegos:Int,
-    var dificulty:Int,
-    var hints:Int,
-    var hintsquantity:Int
+    @PrimaryKey var userid: Int,
+    @ColumnInfo (defaultValue = "5" )var questionquantity:Int,
+    @ColumnInfo(defaultValue = "1")var ciencia:Int,
+    @ColumnInfo(defaultValue = "0")var cine:Int,
+    @ColumnInfo(defaultValue = "0")var deporte:Int,
+    @ColumnInfo(defaultValue = "0")var musica:Int,
+    @ColumnInfo(defaultValue = "0")var arte:Int,
+    @ColumnInfo(defaultValue = "0")var videojuegos:Int,
+    @ColumnInfo(defaultValue = "1")var dificulty:Int,
+    @ColumnInfo(defaultValue = "0")var hints:Int,
+    @ColumnInfo(defaultValue = "1")var hintsquantity:Int
 )

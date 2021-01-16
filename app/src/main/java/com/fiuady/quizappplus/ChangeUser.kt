@@ -22,7 +22,8 @@ class ChangeUser : AppCompatActivity() {
 
         searchview = findViewById(R.id.Searchview)
         Listusers = findViewById(R.id.Listusers)
-
+        var intent = intent
+        val option = intent.getIntExtra("option",0)
 
         val usuarios = db.usersDao().getUsers()
         val nombres = ArrayList<String>()
@@ -35,7 +36,6 @@ class ChangeUser : AppCompatActivity() {
         Listusers.adapter = adapter
 
         Listusers.setOnItemClickListener { parent, view, position, id ->
-
             val uposition = nombres.get(position)
             val usuario_actual = db.usersDao().getActiveUser()
             usuario_actual.active=0
@@ -43,9 +43,17 @@ class ChangeUser : AppCompatActivity() {
             val new_user=db.usersDao().getNewUser(uposition)
             new_user.active=1
             db.usersDao().updateUser(new_user)
-            val intent = Intent(this@ChangeUser, MainActivity::class.java)
-            startActivity(intent)
             finish()
+            if(option==1){
+
+                val uposition = nombres.get(position)
+                val usuario_actual = db.usersDao().getActiveUser()
+                db.usersDao().deleteById(usuario_actual.id)
+                val new_user=db.usersDao().getNewUser(uposition)
+                new_user.active=1
+                db.usersDao().updateUser(new_user)
+                finish()
+            }
         }
 
         searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -58,7 +66,6 @@ class ChangeUser : AppCompatActivity() {
                 }
                 return false
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
                 adapter.filter.filter(p0)
                 return false
@@ -70,3 +77,5 @@ class ChangeUser : AppCompatActivity() {
 
 
 }
+
+

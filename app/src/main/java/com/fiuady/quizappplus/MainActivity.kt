@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var opciones_button: Button
     private lateinit var puntuaciones_button: Button
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
 
-
         toggle = ActionBarDrawerToggle(this@MainActivity, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -59,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         val header: View = navView.getHeaderView(0)
         var usuario: TextView = header.findViewById(R.id.user_activenow)
         usuario.text= usuario_activo.name
-        usuario_activo.name
 
 
         navView.setNavigationItemSelectedListener {
@@ -71,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.delete->DeleteUser()
 
             }
+            drawer_layout.closeDrawers()
             true
         }
 
@@ -102,6 +99,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
+            val dbBuilder: DbBuilder by viewModels()
+            val db = dbBuilder.buildBd(this)
+            val usuario_activo = db.usersDao().getActiveUser()
+            val header: View = navView.getHeaderView(0)
+            var usuario: TextView = header.findViewById(R.id.user_activenow)
+            usuario.text= usuario_activo.name
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -126,12 +129,13 @@ class MainActivity : AppCompatActivity() {
         builder.setIcon(R.drawable.face_global)
         var usuario_text: EditText = medio.findViewById(R.id.username)
         builder.setPositiveButton("OK") { _, id ->
-            val usuario = User(db.usersDao().getNumber(), usuario_text.text.toString(), 0)
-            db.usersDao().insertUser(usuario)
+            db.usersDao().InsertUser(usuario_text.text.toString(), 0)
+         var new_useradd=db.usersDao().getNewUser(usuario_text.text.toString())
+            db.settingsDao().insertbyid(new_useradd.id)
+
         }
         builder.create()
         builder.show()
-
     }
 
     private fun EditUser(db: AppDatabase) {
@@ -156,11 +160,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun DeleteUser() {
+        val option=1
         val deleteuser = AlertDialog.Builder(this)
         deleteuser.setTitle("Delete user")
         deleteuser.setMessage("Are you shure?")
         deleteuser.setPositiveButton("DELETE") { _, id ->
             val changeUser = Intent(this@MainActivity, ChangeUser::class.java)
+            changeUser.putExtra("option", option)
             startActivity(changeUser)
         }
             .setNegativeButton("CANCEL") { dialog, id -> dialog.cancel() }

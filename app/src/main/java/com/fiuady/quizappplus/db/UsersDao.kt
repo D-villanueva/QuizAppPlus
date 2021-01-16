@@ -19,6 +19,9 @@ interface UsersDao {
     @Query("SELECT * FROM users WHERE nombre = (:usuario)")
     fun getNewUser(usuario: String): User
 
+    @Query("INSERT INTO users (nombre,activo) VALUES (:usuario,:activo)")
+    fun InsertUser(usuario: String, activo:Int)
+
     @Insert
     fun insertUser(user: User)
 
