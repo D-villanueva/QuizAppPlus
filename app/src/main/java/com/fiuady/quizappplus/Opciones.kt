@@ -53,10 +53,12 @@ class Opciones : AppCompatActivity() {
         medio = findViewById(R.id.nivel_medio)
         bajo = findViewById(R.id.nivel_bajo)
 
-        spinadp()
+
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
-
+        val questionquantity = settings.questionquantity
+        spinadp(questionquantity)
+        cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
         adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
         spinnerpistas.setAdapter(adapterpistas)
 
@@ -87,16 +89,18 @@ class Opciones : AppCompatActivity() {
             spinnerpistas.isEnabled=true
         }
         spinnerpistas.setSelection(obtenerPosicionItem(spinnerpistas, settings.hintsquantity.toString()));
+        spinner.setSelection(obtenerPosicionItem(spinner, settings.questionquantity.toString()))
 
+//        if (cont == 1 && settings.questionquantity>=5 ){
+//            spinner.setSelection(obtenerPosicionItem(spinner, settings.questionquantity.toString()))
+//        }else if (cont == 6 && settings.questionquantity>=6){
+//            spinner.setSelection(obtenerPosicionItem(spinner, settings.questionquantity.toString()))
+//        }
+//        else{spinner.setSelection(obtenerPosicionItem(spinner, settings.questionquantity.toString()))}
 
-        if (!cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && videojuegos_checkbox.isChecked || cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked ||
-            !cine_checkbox.isChecked && ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked || !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked ||
-            !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked || !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && musica_checkbox.isChecked && !videojuegos_checkbox.isChecked) {
-            spinner.isEnabled = false
-            spinner.setSelection(0)
-        } else {
-            spinner.isEnabled = true
-        }
+        spinner.isEnabled = !(!cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && videojuegos_checkbox.isChecked || cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked ||
+                !cine_checkbox.isChecked && ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked || !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && deporte_checkbox.isChecked && !arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked ||
+                !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && arte_checkbox.isChecked && !musica_checkbox.isChecked && !videojuegos_checkbox.isChecked || !cine_checkbox.isChecked && !ciencia_checkbox.isChecked && !deporte_checkbox.isChecked && !arte_checkbox.isChecked && musica_checkbox.isChecked && !videojuegos_checkbox.isChecked)
 
         todoschek.setOnClickListener {
             if (todoschek.isChecked==true) {
@@ -107,7 +111,12 @@ class Opciones : AppCompatActivity() {
                 musica_checkbox.isChecked = true
                 arte_checkbox.isChecked = true
                 videojuegos_checkbox.isChecked = true
-                spinner.setSelection(0)
+                if (settings.questionquantity ==5) {
+                    spinner.setSelection(0)
+                }
+                else {
+                    spinner.setSelection(obtenerPosicionItem(spinner, settings.questionquantity.toString()))
+                }
             }
         }
 
@@ -127,7 +136,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-            validar()
+            validar(settings.questionquantity)
         }
 
         ciencia_checkbox.setOnCheckedChangeListener { _, isChecked ->
@@ -145,7 +154,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-           validar()
+           validar(settings.questionquantity)
         }
 
         deporte_checkbox.setOnCheckedChangeListener { _, isChecked ->
@@ -162,7 +171,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-            validar()
+            validar(settings.questionquantity)
         }
         arte_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -179,7 +188,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-            validar()
+            validar(settings.questionquantity)
         }
         musica_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -196,7 +205,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-            validar()
+            validar(settings.questionquantity)
         }
         videojuegos_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -213,7 +222,7 @@ class Opciones : AppCompatActivity() {
                 db.settingsDao().actualizar(settings)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
-            validar()
+            validar(settings.questionquantity)
         }
 
         Alto.setOnClickListener {
@@ -287,11 +296,12 @@ class Opciones : AppCompatActivity() {
         return posicion
     }
 
-    fun spinadp() {
+    fun spinadp(questionquantity:Int) {
         if (cont < 6) { val num_pre = arrayOf(5, 6, 7, 8, 9, 10)
             adapterQuestions = ArrayAdapter<Int>(
                 this, R.layout.support_simple_spinner_dropdown_item, num_pre)
             spinner.setAdapter(adapterQuestions)
+            spinner.setSelection(obtenerPosicionItem(spinner, questionquantity.toString()))
 
         }
 
@@ -299,30 +309,31 @@ class Opciones : AppCompatActivity() {
             val preg = arrayListOf<Int>(6, 7, 8, 9, 10)
             adapterQuestions = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, preg)
             spinner.setAdapter(adapterQuestions)
+            spinner.setSelection(obtenerPosicionItem(spinner, questionquantity.toString()))
         }
 
     }
-    fun validar() {
+    fun validar(questionquantity:Int) {
         when (cont) {
             1 -> {
-                spinadp()
+                spinadp(questionquantity)
                 todoschek.isEnabled = true
                 todoschek.isChecked = false
                 spinner.setSelection(0)
                 spinner.isEnabled = false
             }
             in 2..5 -> {
-                spinadp()
+                spinadp(questionquantity)
                 todoschek.isEnabled = true
                 todoschek.isChecked = false
-                spinner.setSelection(0)
+                spinner.setSelection(obtenerPosicionItem(spinner, questionquantity.toString()))
                 spinner.isEnabled = true
             }
             in 6..7 -> {
-                spinadp()
+                spinadp(questionquantity)
                 todoschek.isChecked = true
                 todoschek.isEnabled = false
-                spinner.setSelection(0)
+                spinner.setSelection(obtenerPosicionItem(spinner, questionquantity.toString()))
                 spinner.isEnabled = true
             }
         }

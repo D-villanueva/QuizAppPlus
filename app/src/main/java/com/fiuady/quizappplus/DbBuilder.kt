@@ -65,7 +65,7 @@ class DbBuilder:ViewModel() {
                     db.execSQL("INSERT INTO questions VALUES (30,5,'¿Cómo se llama la ciudad en la que se desenvuelve Resident Evil?')")
 
                     //settings
-                    db.execSQL("INSERT INTO settings VALUES (1,5,1,0,0,0,0,0,1,0,1)")
+                    db.execSQL("INSERT INTO settings VALUES (1,5,1,0,0,0,0,0,1,0,1, '2 3')")
 
                     //questions_answers
                     db.execSQL("INSERT INTO questions_answers VALUES (1,1,'El Gran Dictador',1)")

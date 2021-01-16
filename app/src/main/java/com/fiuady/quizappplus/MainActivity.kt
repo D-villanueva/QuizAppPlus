@@ -87,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         TextInicio.typeface = Typeface.createFromAsset(assets, "fonts/Balamoa.ttf")
 
         jugar_button.setOnClickListener { _ ->
+            val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
+            val intopic = topicsarray.toTypedArray()
+
+            val questions = db.questionsDao().getQuestions(intopic)
             val game = Intent(this, game::class.java)
             startActivity(game)
         }

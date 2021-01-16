@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
     abstract fun usersDao(): UsersDao
     abstract fun settingsDao() :SettingsDao
+    abstract fun questionsDao() :QuestionsDao
+
 }
 
 
