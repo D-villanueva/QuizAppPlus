@@ -5,18 +5,18 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_MOVE
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.activity.viewModels
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.facebook.stetho.Stetho
 import com.fiuady.quizappplus.db.AppDatabase
 import com.fiuady.quizappplus.db.User
@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.agregar_usuarios.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.puntuaciones_globales.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var TextInicio: TextView
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jugar_button: Button
     private lateinit var opciones_button: Button
     private lateinit var puntuaciones_button: Button
+    private lateinit var drawer:DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +50,14 @@ class MainActivity : AppCompatActivity() {
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
+        drawer = findViewById(R.id.drawer_layout)
 
-        toggle = ActionBarDrawerToggle(this@MainActivity, drawer_layout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(
+            this@MainActivity,
+            drawer_layout,
+            R.string.open,
+            R.string.close
+        )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -63,8 +71,8 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.agregar -> dialogoUser(db)
                 R.id.Editar -> EditUser(db)
-                R.id.cambiar_usuarios->changeUser()
-                R.id.delete->DeleteUser()
+                R.id.cambiar_usuarios -> changeUser()
+                R.id.delete -> DeleteUser()
 
             }
             drawer_layout.closeDrawers()
@@ -94,7 +102,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
     }
+
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -177,3 +187,5 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+
