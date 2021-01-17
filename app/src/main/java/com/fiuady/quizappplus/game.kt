@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
+import com.fiuady.quizappplus.db.Questions
 
 class game : AppCompatActivity() {
 
@@ -20,12 +21,19 @@ class game : AppCompatActivity() {
     private lateinit var opcion3Button: Button
     private lateinit var opcion4Button: Button
 
-
+    val filter = setOf('[', ']', ',')
+    var questions = mutableListOf<Questions>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
+        val userid = 2
+        val memoryactual = db.questionmemoryDao().getpending(userid)
+        val arreglopreg = memoryactual.questionAry?.filterNot { filter.contains(it) }
+        val arreglopregaux = arreglopreg?.split(" ")?.map { it.toInt() }?.toTypedArray()
+        questions = arreglopregaux?.let { db.questionsDao().getQuestionsbyids(it) } as MutableList<Questions>
+
 
         questionText = findViewById(R.id.question_text)
         prevButton = findViewById(R.id.prev_button)
@@ -38,6 +46,26 @@ class game : AppCompatActivity() {
         pistas_text = findViewById(R.id.Pistas_text)
         pregunta = findViewById(R.id.pregunta)
 
+        questionText.setText(currentQuestion.question_text)
 
+        nextButton.setOnClickListener {
+            nextQuestion()
+            questionText.setText(currentQuestion.question_text)
+        }
+    }
+
+    var currentQuestionIndex = 0
+
+    val currentQuestion: Questions
+        get() = questions[currentQuestionIndex]
+    val questionNumber: Int
+        get() = questions.size
+
+    fun nextQuestion() {
+        currentQuestionIndex = (currentQuestionIndex + 1) % questions.size
+    }
+
+    fun prevQuestion() {
+        currentQuestionIndex = (questions.size + currentQuestionIndex - 1) % questions.size
     }
 }

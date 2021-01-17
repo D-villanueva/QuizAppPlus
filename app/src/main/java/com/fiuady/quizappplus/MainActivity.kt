@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.facebook.stetho.Stetho
 import com.fiuady.quizappplus.db.AppDatabase
+import com.fiuady.quizappplus.db.Questions
 import com.fiuady.quizappplus.db.User
 import kotlinx.android.synthetic.main.activity_final_score.view.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this);
         val db = dbBuilder.buildBd(this)
         val usuario_activo = db.usersDao().getActiveUser()
-
+        var questionstoint = arrayListOf<Int>()
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
@@ -83,11 +84,22 @@ class MainActivity : AppCompatActivity() {
         TextInicio.typeface = Typeface.createFromAsset(assets, "fonts/Balamoa.ttf")
 
         jugar_button.setOnClickListener { _ ->
-            val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
-            val intopic = topicsarray.toTypedArray()
+            val questionmemory = db.questionmemoryDao().getpending(usuario_activo.id)
+            if(questionmemory.finish==0)
+            {
+                val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
+                val intopic = topicsarray.toTypedArray()
+                val questions = db.questionsDao().getQuestions(intopic)
+                questions.forEach{questionstoint.add(it.id)}
+                questionmemory.questionAry=questionstoint.toString()
+                db.questionmemoryDao().updatequestionmemory(questionmemory)
+            }
 
-            val questions = db.questionsDao().getQuestions(intopic)
+
+//            var questionsAl:ArrayList<Questions>?=null
+//            questionsAl = questions.toCollection(ArrayList())
             val game = Intent(this, game::class.java)
+//            intent.putExtra("preguntas", questionsAl)
             startActivity(game)
         }
         opciones_button.setOnClickListener { _ ->
@@ -136,7 +148,7 @@ class MainActivity : AppCompatActivity() {
             db.usersDao().InsertUser(usuario_text.text.toString(), 0)
          var new_useradd=db.usersDao().getNewUser(usuario_text.text.toString())
             db.settingsDao().insertbyid(new_useradd.id)
-
+            db.questionmemoryDao().insertbyid(new_useradd.id)
         }
         builder.create()
         builder.show()

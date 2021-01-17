@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.fiuady.quizappplus.db.AppDatabase
+import com.fiuady.quizappplus.db.Questions
 
 class DbBuilder:ViewModel() {
 
@@ -211,4 +212,6 @@ class DbBuilder:ViewModel() {
             }).build()
         return db
     }
+
+
 }
