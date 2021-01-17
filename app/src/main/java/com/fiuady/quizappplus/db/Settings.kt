@@ -17,5 +17,5 @@ data class Settings (
     @ColumnInfo(defaultValue = "1")var dificulty:Int,
     @ColumnInfo(defaultValue = "0")var hints:Int,
     @ColumnInfo(defaultValue = "1")var hintsquantity:Int,
-    @ColumnInfo(defaultValue = "1 2 3 4 5")var topicsarray:String
+    @ColumnInfo(defaultValue = "1")var topicsarray:String
 )

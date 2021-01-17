@@ -31,13 +31,15 @@ class Opciones : AppCompatActivity() {
     val preg = arrayListOf<Int>(6, 7, 8, 9, 10)
     val num_pistas = arrayOf(1, 2, 3)
     var adapterpistas: ArrayAdapter<Int>? = null
+    val filter = setOf('[', ']', ',')
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_opciones)
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
-
+        var topicsarray = arrayListOf<Int>()
+        var topicstring:String
         todoschek = findViewById(R.id.todos_checkbox)
         ciencia_checkbox = findViewById(R.id.ciencia_checkbox)
         cine_checkbox = findViewById(R.id.cine_checkbox)
@@ -57,6 +59,12 @@ class Opciones : AppCompatActivity() {
         val usuario_activo = db.usersDao().getActiveUser()
         val settings = db.settingsDao().getsettings(usuario_activo.id)
         val questionquantity = settings.questionquantity
+        topicstring=settings.topicsarray
+
+        val topicsarrayaux = topicstring.split(" ").map { it.toInt() }
+        val intopic = topicsarrayaux.toTypedArray()
+        intopic.forEach { topicsarray.add(it) }
+
         spinadp(questionquantity)
         cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
         adapterpistas = ArrayAdapter<Int>(this, R.layout.support_simple_spinner_dropdown_item, num_pistas)
@@ -123,105 +131,119 @@ class Opciones : AppCompatActivity() {
         cine_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.cine=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(0)) topicsarray.add(0)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
 
             }  else if(cont==1) {
                 settings.cine==1
-                db.settingsDao().actualizar(settings)
                 cine_checkbox.isChecked=true
             }
             else {
                 settings.cine=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(0)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
             validar(settings.questionquantity)
         }
 
         ciencia_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.ciencia=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(2)) topicsarray.add(2)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }else if(cont==1) {
                 settings.ciencia==1
-                db.settingsDao().actualizar(settings)
                 ciencia_checkbox.isChecked=true
             }
             else  {
                 settings.ciencia=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(2)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
            validar(settings.questionquantity)
         }
 
         deporte_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.deporte=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(3)) topicsarray.add(3)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }else if(cont==1) {
                 settings.deporte==1
-                db.settingsDao().actualizar(settings)
+
                 deporte_checkbox.isChecked=true
             } else {
                 settings.deporte=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(3)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
             validar(settings.questionquantity)
         }
         arte_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.arte=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(4)) topicsarray.add(4)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }else if(cont==1) {
                 settings.arte==1
-                db.settingsDao().actualizar(settings)
                 arte_checkbox.isChecked=true
             }
             else  {
                 settings.arte=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(4)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
             validar(settings.questionquantity)
         }
         musica_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.musica=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(1)) topicsarray.add(1)
+
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }else if(cont==1) {
                 settings.musica==1
-                db.settingsDao().actualizar(settings)
                 musica_checkbox.isChecked=true
             }
             else   {
                 settings.musica=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(1)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
             validar(settings.questionquantity)
         }
         videojuegos_checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 settings.videojuegos=1
-                db.settingsDao().actualizar(settings)
+                if (!topicsarray.contains(5)) topicsarray.add(5)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }else if(cont==1) {
                 settings.videojuegos==1
-                db.settingsDao().actualizar(settings)
                 videojuegos_checkbox.isChecked=true
             }
             else  {
                 settings.videojuegos=0
-                db.settingsDao().actualizar(settings)
+                topicsarray.remove(5)
                 cont=settings.cine+settings.ciencia+settings.deporte+settings.musica+settings.arte+settings.videojuegos
             }
+            topicstring = topicsarray.toString().filterNot { filter.contains(it) }
+            settings.topicsarray = topicstring
+            db.settingsDao().actualizar(settings)
             validar(settings.questionquantity)
         }
 
