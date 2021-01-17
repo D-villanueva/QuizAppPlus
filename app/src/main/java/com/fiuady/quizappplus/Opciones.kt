@@ -281,18 +281,12 @@ class Opciones : AppCompatActivity() {
 
     }
     fun obtenerPosicionItem(spinner: Spinner, numero: String?): Int {
-        //Creamos la variable posicion y lo inicializamos en 0
         var posicion = 0
-        //Recorre el spinner en busca del ítem que coincida con el parametro `String fruta`
-        //que lo pasaremos posteriormente
-        for (i in 0 until spinner.count) {
-            //Almacena la posición del ítem que coincida con la búsqueda
+                for (i in 0 until spinner.count) {
             if (spinner.getItemAtPosition(i).toString().equals(numero, ignoreCase = true)) {
                 posicion = i
             }
         }
-        //Devuelve un valor entero (si encontro una coincidencia devuelve la
-        // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
         return posicion
     }
 

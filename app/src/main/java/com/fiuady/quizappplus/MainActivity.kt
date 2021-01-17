@@ -65,20 +65,16 @@ class MainActivity : AppCompatActivity() {
         var usuario: TextView = header.findViewById(R.id.user_activenow)
         usuario.text= usuario_activo.name
 
-
         navView.setNavigationItemSelectedListener {
-
             when (it.itemId) {
                 R.id.agregar -> dialogoUser(db)
                 R.id.Editar -> EditUser(db)
                 R.id.cambiar_usuarios -> changeUser()
                 R.id.delete -> DeleteUser()
-
             }
             drawer_layout.closeDrawers()
             true
         }
-
         if (db.usersDao().getNumber() == 0) {
             dialogoUser(db)
         }
