@@ -82,5 +82,6 @@ class game : AppCompatActivity() {
         currentQuestionIndex = (questions.size + currentQuestionIndex - 1) % questions.size
         memory.currentquestion=currentQuestionIndex
         db.questionmemoryDao().updatequestionmemory(memory)
+
     }
 }

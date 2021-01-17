@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         jugar_button.setOnClickListener { _ ->
             val questionmemory = db.questionmemoryDao().getpending(usuario_activo.id)
+
             if(questionmemory.finish==0)
             {
                 val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
@@ -93,10 +94,9 @@ class MainActivity : AppCompatActivity() {
                 questions.forEach{questionstoint.add(it.id)}
                 questionmemory.questionAry=questionstoint.toString()
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
-            }
+            }else if(questionmemory.finish==1) Continuegame(db)
 
-
-//            var questionsAl:ArrayList<Questions>?=null
+//          var questionsAl:ArrayList<Questions>?=null
 //            questionsAl = questions.toCollection(ArrayList())
             val game = Intent(this, game::class.java)
 //            intent.putExtra("preguntas", questionsAl)
@@ -189,6 +189,23 @@ class MainActivity : AppCompatActivity() {
         deleteuser.create()
         deleteuser.show()
 
+    }
+    private fun Continuegame(db: AppDatabase){
+        val continuegame = AlertDialog.Builder(this)
+        continuegame.setTitle("Continue Game")
+        continuegame.setMessage("Deseas continuar con tu partida guardada?")
+        continuegame.setPositiveButton("OK") { _, id ->
+            val game = Intent(this, game::class.java)
+            startActivity(game)
+        }
+            .setNegativeButton("NO") { dialog, id -> dialog.cancel()
+                val usuario_activo=db.usersDao().getActiveUser()
+                db.questionmemoryDao().deletejuego(usuario_activo.id)
+
+            }
+        continuegame.setIcon(R.drawable.face_global)
+        continuegame.create()
+        continuegame.show()
     }
 
 }
