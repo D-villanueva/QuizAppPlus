@@ -45,7 +45,6 @@ class ChangeUser : AppCompatActivity() {
             db.usersDao().updateUser(new_user)
             finish()
             if(option==1){
-
                 val uposition = nombres.get(position)
                 val usuario_actual = db.usersDao().getActiveUser()
                 db.usersDao().deleteById(usuario_actual.id)

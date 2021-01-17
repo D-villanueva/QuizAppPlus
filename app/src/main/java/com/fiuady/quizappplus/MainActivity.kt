@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             val game = Intent(this, game::class.java)
             startActivity(game)
         }
-
         opciones_button.setOnClickListener { _ ->
             val option = Intent(this@MainActivity, Opciones::class.java)
             startActivity(option)
@@ -99,13 +98,8 @@ class MainActivity : AppCompatActivity() {
         puntuaciones_button.setOnClickListener { _ ->
             val puntuaciones = Intent(this@MainActivity, Puntuaciones::class.java)
             startActivity(puntuaciones)
-
         }
-
-
     }
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
@@ -166,7 +160,6 @@ class MainActivity : AppCompatActivity() {
         }
         edituser.create()
         edituser.show()
-
     }
 
     private fun DeleteUser() {
