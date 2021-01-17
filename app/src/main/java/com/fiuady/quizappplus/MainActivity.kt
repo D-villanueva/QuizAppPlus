@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jugar_button: Button
     private lateinit var opciones_button: Button
     private lateinit var puntuaciones_button: Button
-    private lateinit var drawer:DrawerLayout
+    private lateinit var drawer: DrawerLayout
+    var questionstoint = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this);
         val db = dbBuilder.buildBd(this)
         val usuario_activo = db.usersDao().getActiveUser()
-        var questionstoint = arrayListOf<Int>()
+
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
         puntuaciones_button = findViewById(R.id.puntaje_button)
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val header: View = navView.getHeaderView(0)
         var usuario: TextView = header.findViewById(R.id.user_activenow)
-        usuario.text= usuario_activo.name
+        usuario.text = usuario_activo.name
 
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -84,23 +85,28 @@ class MainActivity : AppCompatActivity() {
         TextInicio.typeface = Typeface.createFromAsset(assets, "fonts/Balamoa.ttf")
 
         jugar_button.setOnClickListener { _ ->
+
             val questionmemory = db.questionmemoryDao().getpending(usuario_activo.id)
+            val settings = db.settingsDao().getsettings(usuario_activo.id)
 
-            if(questionmemory.finish==0)
-            {
-                val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
+            if (questionmemory.finish == 0) {
+                val topicsarray =
+                    db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
                 val intopic = topicsarray.toTypedArray()
-                val questions = db.questionsDao().getQuestions(intopic)
-                questions.forEach{questionstoint.add(it.id)}
-                questionmemory.questionAry=questionstoint.toString()
+                val questions = db.questionsDao().getQuestions(intopic, settings.questionquantity)
+                questionstoint.clear()
+                questionmemory.questionAry = questionstoint.toString()
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
-            }else if(questionmemory.finish==1) Continuegame(db)
+                questions.forEach { questionstoint.add(it.id) }
+                questionmemory.questionAry = questionstoint.toString()
+                questionmemory.finish = 1
+                db.questionmemoryDao().updatequestionmemory(questionmemory)
+                val game = Intent(this, game::class.java)
+                startActivity(game)
+            } else if (questionmemory.finish == 1) {
+                Continuegame(db)
+            }
 
-//          var questionsAl:ArrayList<Questions>?=null
-//            questionsAl = questions.toCollection(ArrayList())
-            val game = Intent(this, game::class.java)
-//            intent.putExtra("preguntas", questionsAl)
-            startActivity(game)
         }
         opciones_button.setOnClickListener { _ ->
             val option = Intent(this@MainActivity, Opciones::class.java)
@@ -120,13 +126,13 @@ class MainActivity : AppCompatActivity() {
             val usuario_activo = db.usersDao().getActiveUser()
             val header: View = navView.getHeaderView(0)
             var usuario: TextView = header.findViewById(R.id.user_activenow)
-            usuario.text= usuario_activo.name
+            usuario.text = usuario_activo.name
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changeUser(){
+    private fun changeUser() {
         val changeUser = Intent(this@MainActivity, ChangeUser::class.java)
         startActivity(changeUser)
     }
@@ -146,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         var usuario_text: EditText = medio.findViewById(R.id.username)
         builder.setPositiveButton("OK") { _, id ->
             db.usersDao().InsertUser(usuario_text.text.toString(), 0)
-         var new_useradd=db.usersDao().getNewUser(usuario_text.text.toString())
+            var new_useradd = db.usersDao().getNewUser(usuario_text.text.toString())
             db.settingsDao().insertbyid(new_useradd.id)
             db.questionmemoryDao().insertbyid(new_useradd.id)
         }
@@ -175,7 +181,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun DeleteUser() {
-        val option=1
+        val option = 1
         val deleteuser = AlertDialog.Builder(this)
         deleteuser.setTitle("Delete user")
         deleteuser.setMessage("Are you shure?")
@@ -190,7 +196,8 @@ class MainActivity : AppCompatActivity() {
         deleteuser.show()
 
     }
-    private fun Continuegame(db: AppDatabase){
+
+    private fun Continuegame(db: AppDatabase) {
         val continuegame = AlertDialog.Builder(this)
         continuegame.setTitle("Continue Game")
         continuegame.setMessage("Deseas continuar con tu partida guardada?")
@@ -198,16 +205,36 @@ class MainActivity : AppCompatActivity() {
             val game = Intent(this, game::class.java)
             startActivity(game)
         }
-            .setNegativeButton("NO") { dialog, id -> dialog.cancel()
-                val usuario_activo=db.usersDao().getActiveUser()
-                db.questionmemoryDao().deletejuego(usuario_activo.id)
+            .setNegativeButton("NO") { _, id ->
+                val usuario_activo = db.usersDao().getActiveUser()
+                val questionmemory = db.questionmemoryDao().getpending(usuario_activo.id)
+                questionstoint.clear()
+                questionmemory.questionAry = questionstoint.toString()
+                val settings = db.settingsDao().getsettings(usuario_activo.id)
 
+                val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ")
+                    .map { it.toInt() }
+                val intopic = topicsarray.toTypedArray()
+                val questions =
+                    db.questionsDao().getQuestions(intopic, settings.questionquantity)
+                questionstoint.clear()
+                questionmemory.questionAry = questionstoint.toString()
+                db.questionmemoryDao().updatequestionmemory(questionmemory)
+                questions.forEach { questionstoint.add(it.id) }
+                questionmemory.questionAry = questionstoint.toString()
+                questionmemory.finish = 1
+                questionmemory.currentquestion = 0
+                db.questionmemoryDao().updatequestionmemory(questionmemory)
+                val game = Intent(this, game::class.java)
+                startActivity(game)
             }
+
         continuegame.setIcon(R.drawable.face_global)
         continuegame.create()
         continuegame.show()
     }
-
 }
+
+
 
 

@@ -24,6 +24,7 @@ class game : AppCompatActivity() {
     private lateinit var opcion4Button: Button
 
     val filter = setOf('[', ']', ',')
+    var questionsaux = mutableListOf<Questions>()
     var questions = mutableListOf<Questions>()
     var currentQuestionIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +32,20 @@ class game : AppCompatActivity() {
         setContentView(R.layout.activity_game)
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
-        val userid = 2
-        val memoryactual = db.questionmemoryDao().getpending(userid)
+        val activeuser=db.usersDao().getActiveUser()
+        val memoryactual = db.questionmemoryDao().getpending(activeuser.id)
         val arreglopreg = memoryactual.questionAry?.filterNot { filter.contains(it) }
         val arreglopregaux = arreglopreg?.split(" ")?.map { it.toInt() }?.toTypedArray()
-        questions = arreglopregaux?.let { db.questionsDao().getQuestionsbyids(it) } as MutableList<Questions>
+        questions.clear()
+        questionsaux = arreglopregaux?.let { db.questionsDao().getQuestionsbyids(it) } as MutableList<Questions>
+
+        for (indice in arreglopregaux){
+            for ( question in questionsaux){
+                if (question.id == indice){
+                    questions.add(question)
+                }
+            }
+        }
         currentQuestionIndex=memoryactual.currentquestion
 
         questionText = findViewById(R.id.question_text)

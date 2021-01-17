@@ -13,7 +13,7 @@ interface QuestionmemoryDao {
     @Query("SELECT * FROM questionmemory WHERE user_id = (:userid)")
     fun getpending(userid: Int) : Questionmemory
 
-    @Query("DELETE FROM questionmemory WHERE :userid AND pendiente=1")
+    @Query("DELETE FROM questionmemory WHERE (:userid) AND pendiente=1")
     fun deletejuego(userid:Int)
 
     @Update
