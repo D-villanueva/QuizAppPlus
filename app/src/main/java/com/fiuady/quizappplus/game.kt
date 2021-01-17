@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
+import com.fiuady.quizappplus.db.AppDatabase
+import com.fiuady.quizappplus.db.Questionmemory
 import com.fiuady.quizappplus.db.Questions
 
 class game : AppCompatActivity() {
@@ -23,6 +25,7 @@ class game : AppCompatActivity() {
 
     val filter = setOf('[', ']', ',')
     var questions = mutableListOf<Questions>()
+    var currentQuestionIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -33,7 +36,7 @@ class game : AppCompatActivity() {
         val arreglopreg = memoryactual.questionAry?.filterNot { filter.contains(it) }
         val arreglopregaux = arreglopreg?.split(" ")?.map { it.toInt() }?.toTypedArray()
         questions = arreglopregaux?.let { db.questionsDao().getQuestionsbyids(it) } as MutableList<Questions>
-
+        currentQuestionIndex=memoryactual.currentquestion
 
         questionText = findViewById(R.id.question_text)
         prevButton = findViewById(R.id.prev_button)
@@ -46,26 +49,38 @@ class game : AppCompatActivity() {
         pistas_text = findViewById(R.id.Pistas_text)
         pregunta = findViewById(R.id.pregunta)
 
+        pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
         questionText.setText(currentQuestion.question_text)
 
         nextButton.setOnClickListener {
-            nextQuestion()
+            nextQuestion(db, memoryactual)
             questionText.setText(currentQuestion.question_text)
+            pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
+        }
+
+        prevButton.setOnClickListener {
+            prevQuestion(db, memoryactual)
+            questionText.setText(currentQuestion.question_text)
+            pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
         }
     }
 
-    var currentQuestionIndex = 0
+
 
     val currentQuestion: Questions
         get() = questions[currentQuestionIndex]
     val questionNumber: Int
         get() = questions.size
 
-    fun nextQuestion() {
+    fun nextQuestion(db:AppDatabase, memory:Questionmemory) {
         currentQuestionIndex = (currentQuestionIndex + 1) % questions.size
+        memory.currentquestion=currentQuestionIndex
+        db.questionmemoryDao().updatequestionmemory(memory)
     }
 
-    fun prevQuestion() {
+    fun prevQuestion(db:AppDatabase, memory:Questionmemory) {
         currentQuestionIndex = (questions.size + currentQuestionIndex - 1) % questions.size
+        memory.currentquestion=currentQuestionIndex
+        db.questionmemoryDao().updatequestionmemory(memory)
     }
 }

@@ -11,5 +11,6 @@ data class Questionmemory (
     @ColumnInfo(name = "user_id") val user_id : Int?,
     @ColumnInfo(name = "preguntas") var questionAry : String?,
     @ColumnInfo(name = "respuestas") var answersary : String?,
-    @ColumnInfo(name = "pendiente", defaultValue = "0") var finish : Int
+    @ColumnInfo(name = "pendiente", defaultValue = "0") var finish : Int,
+    @ColumnInfo(name = "Current question", defaultValue = "0") var currentquestion:Int
 )
