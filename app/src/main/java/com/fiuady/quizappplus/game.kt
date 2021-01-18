@@ -1,5 +1,6 @@
 package com.fiuady.quizappplus
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -7,10 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import com.fiuady.quizappplus.db.AppDatabase
-import com.fiuady.quizappplus.db.Questionmemory
-import com.fiuady.quizappplus.db.Questions
-import com.fiuady.quizappplus.db.Questions_Answers
+import com.fiuady.quizappplus.db.*
 
 class game : AppCompatActivity() {
 
@@ -31,22 +29,25 @@ class game : AppCompatActivity() {
     var lsans = mutableListOf<Questions_Answers>()
     var currentQuestionIndex = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
-        val activeuser=db.usersDao().getActiveUser()
+        val activeuser = db.usersDao().getActiveUser()
         val memoryactual = db.questionmemoryDao().getpending(activeuser.id)
         val arreglopreg = memoryactual.questionAry?.filterNot { filter.contains(it) }
         val arreglopregaux = arreglopreg?.split(" ")?.map { it.toInt() }?.toTypedArray()
-        val settings = db.settingsDao().getsettings(activeuser.id )
+        val settings = db.settingsDao().getsettings(activeuser.id)
         questions.clear()
-        questionsaux = arreglopregaux?.let { db.questionsDao().getQuestionsbyids(it) } as MutableList<Questions>
+        questionsaux = arreglopregaux?.let {
+            db.questionsDao().getQuestionsbyids(it)
+        } as MutableList<Questions>
 
-        for (indice in arreglopregaux){
-            for ( question in questionsaux){
-                if (question.id == indice){
+        for (indice in arreglopregaux) {
+            for (question in questionsaux) {
+                if (question.id == indice) {
                     questions.add(question)
                 }
             }
@@ -54,7 +55,7 @@ class game : AppCompatActivity() {
 
 
 
-        currentQuestionIndex=memoryactual.currentquestion
+        currentQuestionIndex = memoryactual.currentquestion
 
         questionText = findViewById(R.id.question_text)
         prevButton = findViewById(R.id.prev_button)
@@ -70,36 +71,37 @@ class game : AppCompatActivity() {
         pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
         questionText.setText(currentQuestion.question_text)
         //Recuperando respuestas
-        val arregloAns = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+        var memoria = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+        val arregloAns = memoria.answerstring!!
         val arregloAnsAux = arregloAns.filterNot { filter.contains(it) }
         val arrayidAns = arregloAnsAux.split(" ")?.map { it.toInt() }?.toTypedArray()
         var lsAnsaux = db.questionanswerDao().getanswer(arrayidAns)
         lsans.clear()
-        for (indice in arrayidAns){
-            for ( answer in lsAnsaux){
-                if (answer.id == indice){
+        for (indice in arrayidAns) {
+            for (answer in lsAnsaux) {
+                if (answer.id == indice) {
                     lsans.add(answer)
                 }
             }
         }
 
-        if (settings.dificulty==1) {
+        if (settings.dificulty == 1) {
             opcion1Button.setText(lsans[0].answer_text)
             opcion2Button.setText(lsans[1].answer_text)
-            opcion3Button.isVisible=false
-            opcion4Button.isVisible=false
-        }else if (settings.dificulty==2) {
+            opcion3Button.isVisible = false
+            opcion4Button.isVisible = false
+        } else if (settings.dificulty == 2) {
             opcion1Button.setText(lsans[0].answer_text)
             opcion2Button.setText(lsans[1].answer_text)
             opcion3Button.setText(lsans[2].answer_text)
-            opcion4Button.isVisible=false
-        }
-        else if (settings.dificulty==3) {
+            opcion4Button.isVisible = false
+        } else if (settings.dificulty == 3) {
             opcion1Button.setText(lsans[0].answer_text)
             opcion2Button.setText(lsans[1].answer_text)
             opcion3Button.setText(lsans[2].answer_text)
             opcion4Button.setText(lsans[3].answer_text)
         }
+        status(memoria,settings)
 
         nextButton.setOnClickListener {
             nextQuestion(db, memoryactual)
@@ -107,36 +109,38 @@ class game : AppCompatActivity() {
             pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
 
             //Recuperando respuestas
-            val arregloAns = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+            memoria = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+            val arregloAns = memoria.answerstring!!
             val arregloAnsAux = arregloAns.filterNot { filter.contains(it) }
             val arrayidAns = arregloAnsAux.split(" ")?.map { it.toInt() }?.toTypedArray()
             var lsAnsaux = db.questionanswerDao().getanswer(arrayidAns)
             lsans.clear()
-            for (indice in arrayidAns){
-                for ( answer in lsAnsaux){
-                    if (answer.id == indice){
+            for (indice in arrayidAns) {
+                for (answer in lsAnsaux) {
+                    if (answer.id == indice) {
                         lsans.add(answer)
                     }
                 }
             }
 
-            if (settings.dificulty==1) {
+            if (settings.dificulty == 1) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
-                opcion3Button.isVisible=false
-                opcion4Button.isVisible=false
-            }else if (settings.dificulty==2) {
+                opcion3Button.isVisible = false
+                opcion4Button.isVisible = false
+            } else if (settings.dificulty == 2) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
                 opcion3Button.setText(lsans[2].answer_text)
-                opcion4Button.isVisible=false
-            }
-            else if (settings.dificulty==3) {
+                opcion4Button.isVisible = false
+            } else if (settings.dificulty == 3) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
+            status(memoria,settings)
+
         }
 
         prevButton.setOnClickListener {
@@ -145,39 +149,63 @@ class game : AppCompatActivity() {
             pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
 
             //Recuperando respuestas
-            val arregloAns = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+            memoria = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+            val arregloAns = memoria.answerstring!!
             val arregloAnsAux = arregloAns.filterNot { filter.contains(it) }
             val arrayidAns = arregloAnsAux.split(" ")?.map { it.toInt() }?.toTypedArray()
             var lsAnsaux = db.questionanswerDao().getanswer(arrayidAns)
             lsans.clear()
-            for (indice in arrayidAns){
-                for ( answer in lsAnsaux){
-                    if (answer.id == indice){
+            for (indice in arrayidAns) {
+                for (answer in lsAnsaux) {
+                    if (answer.id == indice) {
                         lsans.add(answer)
                     }
                 }
             }
 
-            if (settings.dificulty==1) {
+            if (settings.dificulty == 1) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
-                opcion3Button.isVisible=false
-                opcion4Button.isVisible=false
-            }else if (settings.dificulty==2) {
+                opcion3Button.isVisible = false
+                opcion4Button.isVisible = false
+            } else if (settings.dificulty == 2) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
                 opcion3Button.setText(lsans[2].answer_text)
-                opcion4Button.isVisible=false
-            }
-            else if (settings.dificulty==3) {
+                opcion4Button.isVisible = false
+            } else if (settings.dificulty == 3) {
                 opcion1Button.setText(lsans[0].answer_text)
                 opcion2Button.setText(lsans[1].answer_text)
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
+            status(memoria,settings)
         }
-    }
 
+        opcion1Button.setOnClickListener {
+            memoria.resp=1
+
+            if (lsans[0].answer==1){
+                memoria.status=1
+            }
+            else{memoria.status=2
+            }
+            db.answermemoryDao().updateAnsMem(memoria)
+            status(memoria,settings)
+        }
+        opcion2Button.setOnClickListener {
+            memoria.resp=2
+
+            if (lsans[1].answer==1){
+                memoria.status=1
+            }
+            else{memoria.status=2
+            }
+            db.answermemoryDao().updateAnsMem(memoria)
+            status(memoria,settings)
+        }
+
+    }
 
 
     val currentQuestion: Questions
@@ -185,16 +213,76 @@ class game : AppCompatActivity() {
     val questionNumber: Int
         get() = questions.size
 
-    fun nextQuestion(db:AppDatabase, memory:Questionmemory) {
+    fun nextQuestion(db: AppDatabase, memory: Questionmemory) {
         currentQuestionIndex = (currentQuestionIndex + 1) % questions.size
-        memory.currentquestion=currentQuestionIndex
+        memory.currentquestion = currentQuestionIndex
         db.questionmemoryDao().updatequestionmemory(memory)
     }
 
-    fun prevQuestion(db:AppDatabase, memory:Questionmemory) {
+    fun prevQuestion(db: AppDatabase, memory: Questionmemory) {
         currentQuestionIndex = (questions.size + currentQuestionIndex - 1) % questions.size
-        memory.currentquestion=currentQuestionIndex
+        memory.currentquestion = currentQuestionIndex
         db.questionmemoryDao().updatequestionmemory(memory)
+
+    }
+
+    fun status(memoria:Answersmemory, settings: Settings){
+        when (memoria.status){
+            0->{
+                questionText.setTextColor(Color.parseColor("#000000"))
+                if (settings.dificulty == 1) {
+                    opcion1Button.isEnabled=true
+                    opcion2Button.isEnabled=true
+
+                } else if (settings.dificulty == 2) {
+                    opcion1Button.isEnabled=true
+                    opcion2Button.isEnabled=true
+                    opcion3Button.isEnabled=true
+
+                } else if (settings.dificulty == 3) {
+                    opcion1Button.isEnabled=true
+                    opcion2Button.isEnabled=true
+                    opcion3Button.isEnabled=true
+                    opcion4Button.isEnabled=true
+                }
+            }
+            1->{
+                questionText.setTextColor(Color.parseColor("#217922"))
+                if (settings.dificulty == 1) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+
+                } else if (settings.dificulty == 2) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+                    opcion3Button.isEnabled=false
+
+                } else if (settings.dificulty == 3) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+                    opcion3Button.isEnabled=false
+                    opcion4Button.isEnabled=false
+                }
+            }
+            2->{
+                questionText.setTextColor(Color.parseColor("#FF0000"))
+                if (settings.dificulty == 1) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+
+                } else if (settings.dificulty == 2) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+                    opcion3Button.isEnabled=false
+
+                } else if (settings.dificulty == 3) {
+                    opcion1Button.isEnabled=false
+                    opcion2Button.isEnabled=false
+                    opcion3Button.isEnabled=false
+                    opcion4Button.isEnabled=false
+                }
+            }
+        }
 
     }
 }

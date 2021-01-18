@@ -3,6 +3,7 @@ package com.fiuady.quizappplus.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface AnswermemoryDao {
@@ -12,8 +13,10 @@ interface AnswermemoryDao {
     @Query("DELETE FROM answermemory WHERE user_id=(:userid)")
     fun  deletebyuserid(userid:Int)
 
-    @Query("SELECT answerstring FROM answermemory WHERE user_id=(:userid) AND pregunta_id=(:preguntaid)")
-    fun getAnswersidbyQid(userid: Int, preguntaid:Int) :String
+    @Query("SELECT * FROM answermemory WHERE user_id=(:userid) AND pregunta_id=(:preguntaid)")
+    fun getAnswersidbyQid(userid: Int, preguntaid:Int) :Answersmemory
 
+    @Update
+    fun updateAnsMem(memoria:Answersmemory)
 
 }
