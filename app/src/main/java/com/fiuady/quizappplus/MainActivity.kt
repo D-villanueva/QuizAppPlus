@@ -134,6 +134,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onUserInteraction() {
+
+        val dbBuilder: DbBuilder by viewModels()
+        val db = dbBuilder.buildBd(this)
+        val usuario_activo = db.usersDao().getActiveUser()
+        val header: View = navView.getHeaderView(0)
+        var usuario: TextView = header.findViewById(R.id.user_activenow)
+        usuario.text = usuario_activo.name
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             val dbBuilder: DbBuilder by viewModels()
@@ -144,6 +154,7 @@ class MainActivity : AppCompatActivity() {
             usuario.text = usuario_activo.name
             return true
         }
+
         return super.onOptionsItemSelected(item)
     }
 
