@@ -11,5 +11,6 @@ data class Answersmemory (
     var pregunta_id:Int?,
     var answerstring:String?,
     @ColumnInfo(name = "estado", defaultValue = "0") var status: Int,
-    @ColumnInfo(name = "respuesta", defaultValue = "0") var resp : Int
+    @ColumnInfo(name = "respuesta", defaultValue = "0") var resp : Int,
+    @ColumnInfo(name = "cheats", defaultValue = "0") var cheats : Int,
 )

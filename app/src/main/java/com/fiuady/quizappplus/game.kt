@@ -68,6 +68,12 @@ class game : AppCompatActivity() {
         pistas_text = findViewById(R.id.Pistas_text)
         pregunta = findViewById(R.id.pregunta)
 
+        val buttonArray =
+            arrayListOf<Button>(opcion1Button, opcion2Button, opcion3Button, opcion4Button)
+        val buttonArrayAux = arrayListOf<Button>()
+        if (settings.hints == 1) {
+            pistas.setText("${memoryactual.cheats}/${settings.hintsquantity}")
+        }
         pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
         questionText.setText(currentQuestion.question_text)
         //Recuperando respuestas
@@ -180,6 +186,19 @@ class game : AppCompatActivity() {
                 opcion4Button.setText(lsans[3].answer_text)
             }
             status(memoria, settings)
+        }
+
+        questionText.setOnClickListener {
+            if (settings.hints == 0) {
+            } else {
+                if (memoryactual.cheats < settings.hintsquantity )
+                    memoryactual.cheats++
+                memoria.cheats++
+                cheats(buttonArray, buttonArrayAux, settings, memoria, memoryactual, lsans)
+
+            }
+            db.questionmemoryDao().updatequestionmemory(memoryactual)
+            db.answermemoryDao().updateAnsMem(memoria)
         }
 
         opcion1Button.setOnClickListener {
@@ -374,5 +393,30 @@ class game : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun cheats(
+        buttonArray: ArrayList<Button>,
+        buttonArrayAux: ArrayList<Button>,
+        settings: Settings,
+        answersmemory: Answersmemory,
+        questionmemory: Questionmemory,
+        lsans: MutableList<Questions_Answers>
+    ) {
+        if (answersmemory.status == 0 && questionmemory.cheats >= 0) {
+            if (settings.dificulty == answersmemory.cheats) {
+                for (i in 0 until settings.dificulty) {
+                    if (buttonArray[i].text == lsans[i].answer_text) {
+                        answersmemory.resp = i
+//                        buttonArrayAux[0].isEnabled = false
+//                        buttonArrayAux[1].isEnabled = false
+//                        buttonArrayAux[2].isEnabled = false
+                    }
+                    answersmemory.status = 1
+                    status(answersmemory, settings)
+                }
+
+            }
+        }
     }
 }

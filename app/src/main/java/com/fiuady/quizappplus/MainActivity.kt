@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                 questions.forEach { questionstoint.add(it.id) }
                 questionmemory.questionAry = questionstoint.toString()
                 questionmemory.finish = 1
+                questionmemory.cheats=0
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
                 //guardar respuestas
                 //db.answermemoryDao().deletebyuserid(usuario_activo.id )
@@ -250,6 +251,7 @@ class MainActivity : AppCompatActivity() {
                 questionmemory.questionAry = questionstoint.toString()
                 questionmemory.finish = 1
                 questionmemory.currentquestion = 0
+                questionmemory.cheats=0
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
 
                 questions.forEach{
