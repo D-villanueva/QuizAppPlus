@@ -101,7 +101,7 @@ class game : AppCompatActivity() {
             opcion3Button.setText(lsans[2].answer_text)
             opcion4Button.setText(lsans[3].answer_text)
         }
-        status(memoria,settings)
+        status(memoria, settings)
 
         nextButton.setOnClickListener {
             nextQuestion(db, memoryactual)
@@ -139,7 +139,7 @@ class game : AppCompatActivity() {
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
-            status(memoria,settings)
+            status(memoria, settings)
 
         }
 
@@ -179,30 +179,55 @@ class game : AppCompatActivity() {
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
-            status(memoria,settings)
+            status(memoria, settings)
         }
 
         opcion1Button.setOnClickListener {
-            memoria.resp=1
+            memoria.resp = 1
 
-            if (lsans[0].answer==1){
-                memoria.status=1
-            }
-            else{memoria.status=2
+            if (lsans[0].answer == 1) {
+                memoria.status = 1
+            } else {
+                memoria.status = 2
             }
             db.answermemoryDao().updateAnsMem(memoria)
-            status(memoria,settings)
+            status(memoria, settings)
         }
-        opcion2Button.setOnClickListener {
-            memoria.resp=2
 
-            if (lsans[1].answer==1){
-                memoria.status=1
-            }
-            else{memoria.status=2
+        opcion2Button.setOnClickListener {
+            memoria.resp = 2
+
+            if (lsans[1].answer == 1) {
+                memoria.status = 1
+            } else {
+                memoria.status = 2
             }
             db.answermemoryDao().updateAnsMem(memoria)
-            status(memoria,settings)
+            status(memoria, settings)
+        }
+
+        opcion3Button.setOnClickListener {
+            memoria.resp = 3
+
+            if (lsans[1].answer == 1) {
+                memoria.status = 1
+            } else {
+                memoria.status = 2
+            }
+            db.answermemoryDao().updateAnsMem(memoria)
+            status(memoria, settings)
+        }
+
+        opcion4Button.setOnClickListener {
+            memoria.resp = 4
+
+            if (lsans[1].answer == 1) {
+                memoria.status = 1
+            } else {
+                memoria.status = 2
+            }
+            db.answermemoryDao().updateAnsMem(memoria)
+            status(memoria, settings)
         }
 
     }
@@ -226,60 +251,125 @@ class game : AppCompatActivity() {
 
     }
 
-    fun status(memoria:Answersmemory, settings: Settings){
-        when (memoria.status){
-            0->{
+    fun status(memoria: Answersmemory, settings: Settings) {
+        when (memoria.status) {
+            0 -> {
                 questionText.setTextColor(Color.parseColor("#000000"))
-                if (settings.dificulty == 1) {
-                    opcion1Button.isEnabled=true
-                    opcion2Button.isEnabled=true
+                when (settings.dificulty) {
+                    1 -> {
+                        opcion1Button.isEnabled = true
+                        opcion2Button.isEnabled = true
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    2 -> {
+                        opcion1Button.isEnabled = true
+                        opcion2Button.isEnabled = true
+                        opcion3Button.isEnabled = true
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    3 -> {
+                        opcion1Button.isEnabled = true
+                        opcion2Button.isEnabled = true
+                        opcion3Button.isEnabled = true
+                        opcion4Button.isEnabled = true
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion4Button.setBackgroundResource(android.R.drawable.btn_default)
 
-                } else if (settings.dificulty == 2) {
-                    opcion1Button.isEnabled=true
-                    opcion2Button.isEnabled=true
-                    opcion3Button.isEnabled=true
-
-                } else if (settings.dificulty == 3) {
-                    opcion1Button.isEnabled=true
-                    opcion2Button.isEnabled=true
-                    opcion3Button.isEnabled=true
-                    opcion4Button.isEnabled=true
+                    }
                 }
             }
-            1->{
+            1 -> {
                 questionText.setTextColor(Color.parseColor("#217922"))
-                if (settings.dificulty == 1) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
 
-                } else if (settings.dificulty == 2) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
-                    opcion3Button.isEnabled=false
-
-                } else if (settings.dificulty == 3) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
-                    opcion3Button.isEnabled=false
-                    opcion4Button.isEnabled=false
+                when (settings.dificulty) {
+                    1 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    2 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion3Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    3 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion3Button.isEnabled = false
+                        opcion4Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion4Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
                 }
+                when (memoria.resp) {
+                    1 -> {
+                        opcion1Button.setBackgroundColor(Color.parseColor("#217922"))
+                    }
+                    2 -> {
+                        opcion2Button.setBackgroundColor(Color.parseColor("#217922"))
+                    }
+                    3 -> {
+                        opcion3Button.setBackgroundColor(Color.parseColor("#217922"))
+                    }
+                    4 -> {
+                        opcion4Button.setBackgroundColor(Color.parseColor("#217922"))
+                    }
+                }
+
             }
-            2->{
+            2 -> {
                 questionText.setTextColor(Color.parseColor("#FF0000"))
-                if (settings.dificulty == 1) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
 
-                } else if (settings.dificulty == 2) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
-                    opcion3Button.isEnabled=false
-
-                } else if (settings.dificulty == 3) {
-                    opcion1Button.isEnabled=false
-                    opcion2Button.isEnabled=false
-                    opcion3Button.isEnabled=false
-                    opcion4Button.isEnabled=false
+                when (settings.dificulty) {
+                    1 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    2 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion3Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                    3 -> {
+                        opcion1Button.isEnabled = false
+                        opcion2Button.isEnabled = false
+                        opcion3Button.isEnabled = false
+                        opcion4Button.isEnabled = false
+                        opcion1Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion2Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion3Button.setBackgroundResource(android.R.drawable.btn_default)
+                        opcion4Button.setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                }
+                when (memoria.resp) {
+                    1 -> {
+                        opcion1Button.setBackgroundColor(Color.parseColor("#FF0000"))
+                    }
+                    2 -> {
+                        opcion2Button.setBackgroundColor(Color.parseColor("#FF0000"))
+                    }
+                    3 -> {
+                        opcion3Button.setBackgroundColor(Color.parseColor("#FF0000"))
+                    }
+                    4 -> {
+                        opcion4Button.setBackgroundColor(Color.parseColor("#FF0000"))
+                    }
                 }
             }
         }
