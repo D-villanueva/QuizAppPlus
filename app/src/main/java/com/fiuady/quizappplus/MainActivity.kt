@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.facebook.stetho.Stetho
+import com.fiuady.quizappplus.db.Answersmemory
 import com.fiuady.quizappplus.db.AppDatabase
 import com.fiuady.quizappplus.db.Questions
 import com.fiuady.quizappplus.db.User
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var puntuaciones_button: Button
     private lateinit var drawer: DrawerLayout
     var questionstoint = arrayListOf<Int>()
-
+    var answerary = arrayListOf<Int>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             val settings = db.settingsDao().getsettings(usuario_activo.id)
 
             if (questionmemory.finish == 0) {
+                db.answermemoryDao().deletebyuserid(usuario_activo.id )
                 val topicsarray =
                     db.settingsDao().getTopicsarray(usuario_activo.id).split(" ").map { it.toInt() }
                 val intopic = topicsarray.toTypedArray()
@@ -101,6 +103,19 @@ class MainActivity : AppCompatActivity() {
                 questionmemory.questionAry = questionstoint.toString()
                 questionmemory.finish = 1
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
+                //guardar respuestas
+                //db.answermemoryDao().deletebyuserid(usuario_activo.id )
+                questions.forEach{
+
+                    answerary.clear()
+                    answerary= db.questionanswerDao().getwrongAns(it.id,settings.dificulty) as ArrayList<Int>
+                    answerary.add(db.questionanswerDao().getrightans(it.id))
+                    answerary.shuffle()
+                    db.answermemoryDao().insertAnsMem(usuario_activo.id, it.id, answerary.toString())
+
+                }
+
+
                 val game = Intent(this, game::class.java)
                 startActivity(game)
             } else if (questionmemory.finish == 1) {
@@ -211,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                 questionstoint.clear()
                 questionmemory.questionAry = questionstoint.toString()
                 val settings = db.settingsDao().getsettings(usuario_activo.id)
-
+                db.answermemoryDao().deletebyuserid(usuario_activo.id )
                 val topicsarray = db.settingsDao().getTopicsarray(usuario_activo.id).split(" ")
                     .map { it.toInt() }
                 val intopic = topicsarray.toTypedArray()
@@ -225,6 +240,17 @@ class MainActivity : AppCompatActivity() {
                 questionmemory.finish = 1
                 questionmemory.currentquestion = 0
                 db.questionmemoryDao().updatequestionmemory(questionmemory)
+
+                questions.forEach{
+
+                    answerary.clear()
+                    answerary= db.questionanswerDao().getwrongAns(it.id,settings.dificulty) as ArrayList<Int>
+                    answerary.add(db.questionanswerDao().getrightans(it.id))
+                    answerary.shuffle()
+                    db.answermemoryDao().insertAnsMem(usuario_activo.id, it.id, answerary.toString())
+
+                }
+
                 val game = Intent(this, game::class.java)
                 startActivity(game)
             }
