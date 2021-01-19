@@ -16,6 +16,9 @@ interface AnswermemoryDao {
     @Query("SELECT * FROM answermemory WHERE user_id=(:userid) AND pregunta_id=(:preguntaid)")
     fun getAnswersidbyQid(userid: Int, preguntaid:Int) :Answersmemory
 
+    @Query("SELECT * FROM answermemory WHERE user_id=(:userid)")
+    fun getAnswerarraybyid(userid: Int):List<Answersmemory>
+
     @Update
     fun updateAnsMem(memoria:Answersmemory)
 

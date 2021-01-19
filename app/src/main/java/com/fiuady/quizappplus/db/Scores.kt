@@ -5,7 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "Scores")
+@Entity(tableName = "scores")
+
 data class Scores (
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "partida_id") val id :Int,
     @ColumnInfo(name = "fecha", ) var fecha :String?,
@@ -14,6 +15,5 @@ data class Scores (
     @ColumnInfo(name = "preguntas",defaultValue = "0") var questionT : Int?,
     @ColumnInfo(name = "correctas",defaultValue = "0") var correct : Int?,
     @ColumnInfo(name = "cheats", defaultValue = "0") var finish : Int,
-    @ColumnInfo(name = "puntos partida", defaultValue = "0") var ppartida:Int,
-    @ColumnInfo(name="puntos globales", defaultValue = "0") var pglobales:Int
+    @ColumnInfo(name = "ppartida", defaultValue = "0") var ppartida:Double
 )

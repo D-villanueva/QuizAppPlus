@@ -1,14 +1,17 @@
 package com.fiuady.quizappplus
 
+import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.fiuady.quizappplus.db.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class game : AppCompatActivity() {
 
@@ -29,6 +32,10 @@ class game : AppCompatActivity() {
     var lsans = mutableListOf<Questions_Answers>()
     var currentQuestionIndex = 0
     var puntos :Double=0.0
+    var contestadas=0
+    var correctas=0
+    var cheats=0
+    var finish =false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +59,6 @@ class game : AppCompatActivity() {
                 }
             }
         }
-
 
 
         currentQuestionIndex = memoryactual.currentquestion
@@ -110,6 +116,7 @@ class game : AppCompatActivity() {
         status(memoria, settings)
 
         nextButton.setOnClickListener {
+            puntuacion(settings, db)
             nextQuestion(db, memoryactual)
             questionText.setText(currentQuestion.question_text)
             pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
@@ -144,6 +151,12 @@ class game : AppCompatActivity() {
                 opcion2Button.setText(lsans[1].answer_text)
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
+            }
+            if(finish==false){
+                puntuacion(settings, db)
+            }else{
+                val puntuaciones = Intent(this@game, final_score::class.java)
+                startActivity(puntuaciones)
             }
             status(memoria, settings)
 
@@ -185,16 +198,24 @@ class game : AppCompatActivity() {
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
+            if(finish==false){
+                puntuacion(settings, db)
+            }else{
+                val puntuaciones = Intent(this@game, final_score::class.java)
+                startActivity(puntuaciones)
+            }
             status(memoria, settings)
         }
 
         questionText.setOnClickListener {
+
             if (settings.hints == 0) {
             } else {
                 if (memoryactual.cheats < settings.hintsquantity )
                     memoryactual.cheats++
                 memoria.cheats++
                 cheats(buttonArray, buttonArrayAux, settings, memoria, memoryactual, lsans)
+
 
             }
             db.questionmemoryDao().updatequestionmemory(memoryactual)
@@ -248,6 +269,8 @@ class game : AppCompatActivity() {
             db.answermemoryDao().updateAnsMem(memoria)
             status(memoria, settings)
         }
+
+
 
     }
 
@@ -420,34 +443,38 @@ class game : AppCompatActivity() {
         }
     }
 
-    /*fun puntuacion(settings: Settings,memoria: Answersmemory) {
-        var hints=0
+    fun puntuacion(settings: Settings, db: AppDatabase) {
         var contestadas=0
+        var cheats=0
         var correctas=0
-        var questioncheats=0
-       // var memoria = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
-        for (question in memoria) {
-            if (answersmemory.status != 0) contestadas++
-            if (answersmemory.status==1) correctas++
-            if (answersmemory.cheats==1) questioncheats++
-            if(answersmemory.cheats!=0) {
-                hints += answersmemory.cheats
-            }
-        }
+        val c = Calendar.getInstance()
+        val day=c.get(Calendar.DAY_OF_MONTH)
+        var month1= c.get(Calendar.MONTH)
+        val month=month1+1
+        val year=c.get(Calendar.YEAR)
+        val fecha= "$day-$month-$year"
 
+        var usuario_activo=db.usersDao().getActiveUser()
+        var memory= db.answermemoryDao().getAnswerarraybyid(settings.userid)
+        for(i in 0 until memory.size){
+            if(memory[i].status==1)correctas++
+            if(memory[i].status!=0)contestadas++
+            if(memory[i].cheats!=0)cheats++
+        }
         if (contestadas == questions.size) {
-            //finish=true
+            finish=true
 
             if(settings.dificulty==3){
-                puntos=((correctas-questioncheats)/questions.size.toDouble())*100
+                puntos=((correctas-cheats)/questions.size.toDouble())*100
             }
             if(settings.dificulty==1 || settings.dificulty ==2)
             {
-                puntos=((correctas-hints)/questions.size.toDouble())*100
+                puntos=((correctas-cheats)/questions.size.toDouble())*100
             }
+
+            db.scoresDao().InsertScoreManual(fecha,settings.userid,usuario_activo.name,memory.size,correctas,cheats,puntos)
         }
 
-    }*/
-
+    }
 
 }
