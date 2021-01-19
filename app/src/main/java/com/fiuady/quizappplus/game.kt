@@ -28,7 +28,7 @@ class game : AppCompatActivity() {
     var questions = mutableListOf<Questions>()
     var lsans = mutableListOf<Questions_Answers>()
     var currentQuestionIndex = 0
-
+    var puntos :Double=0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -419,4 +419,35 @@ class game : AppCompatActivity() {
             }
         }
     }
+
+    /*fun puntuacion(settings: Settings,memoria: Answersmemory) {
+        var hints=0
+        var contestadas=0
+        var correctas=0
+        var questioncheats=0
+       // var memoria = db.answermemoryDao().getAnswersidbyQid(activeuser.id, currentQuestion.id)
+        for (question in memoria) {
+            if (answersmemory.status != 0) contestadas++
+            if (answersmemory.status==1) correctas++
+            if (answersmemory.cheats==1) questioncheats++
+            if(answersmemory.cheats!=0) {
+                hints += answersmemory.cheats
+            }
+        }
+
+        if (contestadas == questions.size) {
+            //finish=true
+
+            if(settings.dificulty==3){
+                puntos=((correctas-questioncheats)/questions.size.toDouble())*100
+            }
+            if(settings.dificulty==1 || settings.dificulty ==2)
+            {
+                puntos=((correctas-hints)/questions.size.toDouble())*100
+            }
+        }
+
+    }*/
+
+
 }
