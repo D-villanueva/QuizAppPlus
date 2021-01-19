@@ -14,19 +14,20 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:text="@string/final_score"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
 
 
     <ImageView
         android:id="@+id/image_score"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/name"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
         android:src="@drawable/firstplace" />
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_score">
@@ -37,7 +38,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +46,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -114,4 +113,11 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/altas"
+        android:layout_below="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </RelativeLayout>
