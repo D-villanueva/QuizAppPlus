@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -31,6 +32,7 @@ class game : AppCompatActivity() {
     var questions = mutableListOf<Questions>()
     var lsans = mutableListOf<Questions_Answers>()
     var currentQuestionIndex = 0
+    var buttonArrayAux = arrayListOf<Button>()
     var puntos :Double=0.0
     var contestadas=0
     var correctas=0
@@ -61,6 +63,7 @@ class game : AppCompatActivity() {
         }
 
 
+
         currentQuestionIndex = memoryactual.currentquestion
 
         questionText = findViewById(R.id.question_text)
@@ -76,7 +79,7 @@ class game : AppCompatActivity() {
 
         val buttonArray =
             arrayListOf<Button>(opcion1Button, opcion2Button, opcion3Button, opcion4Button)
-        val buttonArrayAux = arrayListOf<Button>()
+
         if (settings.hints == 1) {
             pistas.setText("${memoryactual.cheats}/${settings.hintsquantity}")
         }
@@ -116,8 +119,8 @@ class game : AppCompatActivity() {
         status(memoria, settings)
 
         nextButton.setOnClickListener {
-            puntuacion(settings, db)
             nextQuestion(db, memoryactual)
+            buttonArrayAux.clear()
             questionText.setText(currentQuestion.question_text)
             pregunta.text = ("${currentQuestionIndex + 1}/${questionNumber}")
 
@@ -206,20 +209,19 @@ class game : AppCompatActivity() {
             }
             status(memoria, settings)
         }
+        if (settings.hints == 0) questionText.isClickable = false
 
         questionText.setOnClickListener {
-
-            if (settings.hints == 0) {
+            if (settings.hintsquantity== memoryactual.cheats){
+                Toast.makeText(this, "NO more cheats", Toast.LENGTH_SHORT).show()
             } else {
-                if (memoryactual.cheats < settings.hintsquantity )
-                    memoryactual.cheats++
+                memoryactual.cheats++
                 memoria.cheats++
                 cheats(buttonArray, buttonArrayAux, settings, memoria, memoryactual, lsans)
-
-
+                pistas.setText("${memoryactual.cheats}/${settings.hintsquantity}")
+                db.questionmemoryDao().updatequestionmemory(memoryactual)
+                db.answermemoryDao().updateAnsMem(memoria)
             }
-            db.questionmemoryDao().updatequestionmemory(memoryactual)
-            db.answermemoryDao().updateAnsMem(memoria)
         }
 
         opcion1Button.setOnClickListener {
@@ -269,8 +271,6 @@ class game : AppCompatActivity() {
             db.answermemoryDao().updateAnsMem(memoria)
             status(memoria, settings)
         }
-
-
 
     }
 
@@ -426,21 +426,43 @@ class game : AppCompatActivity() {
         questionmemory: Questionmemory,
         lsans: MutableList<Questions_Answers>
     ) {
+        buttonArrayAux.clear()
         if (answersmemory.status == 0 && questionmemory.cheats >= 0) {
             if (settings.dificulty == answersmemory.cheats) {
-                for (i in 0 until settings.dificulty) {
-                    if (buttonArray[i].text == lsans[i].answer_text) {
-                        answersmemory.resp = i
+                for (i in 0 until lsans.size) {
+                    if (lsans[i].answer == 1) {
+                        answersmemory.resp = (i + 1)
+                        answersmemory.status = 1
+                        status(answersmemory, settings)
+                        break
 //                        buttonArrayAux[0].isEnabled = false
 //                        buttonArrayAux[1].isEnabled = false
 //                        buttonArrayAux[2].isEnabled = false
                     }
-                    answersmemory.status = 1
-                    status(answersmemory, settings)
-                }
 
+                }
+//                if (settings.dificulty > 1)
+            } else {
+
+                for (i in 0 until lsans.size) {
+                    if (lsans[i].answer == 1) {
+                        buttonArray[i].isEnabled = true
+                    } else if (lsans[i].answer == 0) {
+                        buttonArrayAux.add(buttonArray[i])
+                    }
+                }
+                for (i in 0 until buttonArrayAux.size) {
+                    buttonArrayAux[i].isEnabled = false
+                }
+                for (j in 0 until (settings.dificulty - answersmemory.cheats)) {
+                    buttonArrayAux[j].isEnabled = true
+                }
             }
+
+
         }
+
+
     }
 
     fun puntuacion(settings: Settings, db: AppDatabase) {
