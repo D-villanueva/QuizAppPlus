@@ -11,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.fiuady.quizappplus.db.*
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class game : AppCompatActivity() {
 
@@ -61,8 +61,6 @@ class game : AppCompatActivity() {
                 }
             }
         }
-
-
 
         currentQuestionIndex = memoryactual.currentquestion
 
@@ -470,12 +468,10 @@ class game : AppCompatActivity() {
         var contestadas=0
         var cheats=0
         var correctas=0
-        val c = Calendar.getInstance()
-        val day=c.get(Calendar.DAY_OF_MONTH)
-        var month1= c.get(Calendar.MONTH)
-        val month=month1+1
-        val year=c.get(Calendar.YEAR)
-        val fecha= "$day-$month-$year"
+
+       val pattern = "yyyy-MM-dd"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val fecha = simpleDateFormat.format(Date()).toString()
 
         var usuario_activo=db.usersDao().getActiveUser()
         var memory= db.answermemoryDao().getAnswerarraybyid(settings.userid)
@@ -495,7 +491,16 @@ class game : AppCompatActivity() {
                 puntos=((correctas-cheats)/questions.size.toDouble())*100
             }
 
-            db.scoresDao().InsertScoreManual(fecha,settings.userid,usuario_activo.name,settings.dificulty,memory.size,correctas,cheats,puntos)
+            db.scoresDao().InsertScoreManual(
+                fecha,
+                settings.userid,
+                usuario_activo.name,
+                settings.dificulty,
+                memory.size,
+                correctas,
+                cheats,
+                puntos
+            )
         }
 
     }

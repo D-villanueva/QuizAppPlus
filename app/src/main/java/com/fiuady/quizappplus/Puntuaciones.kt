@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.detail_user.*
 
 class  Puntuaciones : AppCompatActivity(),OnUserClickListener{
 
@@ -14,34 +16,21 @@ class  Puntuaciones : AppCompatActivity(),OnUserClickListener{
     private lateinit var viewAdapter:RecyclerView.Adapter<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_puntuaciones)
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_puntuaciones)
+            val dbBuilder: DbBuilder by viewModels()
+            val db = dbBuilder.buildBd(this)
 
-        val puntosusers=arrayOf(
-           globales("usuario 1",100),
-           globales("usuario 2",100),
-           globales("usuario 3",100),
-           globales("usuario 4",100),
-           globales("usuario 5",100),
-           globales("usuario 6",100),
-           globales("usuario 7",100),
-           globales("usuario 8",100),
-           globales("usuario 9",100),
-           globales("usuario 10",500),
-           globales("usuario 11",100),
-           globales("usuario 12",500),
+            var puntosglobales=db.scoresDao().getglobalesscore()
 
-       )
+            viewAdapter=globalesAdapter(puntosglobales,this)
+            recyclerView=findViewById<RecyclerView>(R.id.puntuaciones ).apply {
+                setHasFixedSize(true)
 
+                layoutManager = LinearLayoutManager(this@Puntuaciones)
+                adapter=viewAdapter
 
-        viewAdapter=globalesAdapter(puntosusers,this)
-        recyclerView=findViewById<RecyclerView>(R.id.puntuaciones ).apply {
-            setHasFixedSize(true)
-
-            layoutManager = LinearLayoutManager(this@Puntuaciones)
-            adapter=viewAdapter
-
-        }
+            }
 
     }
 

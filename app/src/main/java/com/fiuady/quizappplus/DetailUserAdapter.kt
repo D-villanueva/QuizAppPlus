@@ -21,12 +21,10 @@ class DetailUserAdapter (private val detailUser : Array<details>) : RecyclerView
     override fun onBindViewHolder(holder: detailsHolder, position: Int) {
 
         holder.view.findViewById<TextView>(R.id.fecha).text=detailUser[position].fecha
-        holder.view.findViewById<TextView>(R.id.pistas_number).text= detailUser[position].Pistas.toString()
+        holder.view.findViewById<TextView>(R.id.pistasnumber).text= detailUser[position].Pistas.toString()
         holder.view.findViewById<TextView>(R.id.level).text= detailUser[position].level
         holder.view.findViewById<TextView>(R.id.puntos).text= detailUser[position].Puntos.toString()
-
     }
-
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = detailUser.size
 

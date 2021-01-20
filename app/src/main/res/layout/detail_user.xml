@@ -21,85 +21,131 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="6dp">
+            android:padding="2dp">
 
-            <ImageView
-                android:id="@+id/calendar"
+            <LinearLayout
+                android:id="@+id/l1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:src="@drawable/calendar" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/fecha"
+                <ImageView
+                    android:id="@+id/calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:src="@drawable/calendar" />
+
+                <TextView
+                    android:id="@+id/fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/calendar"
+                    android:layout_toRightOf="@+id/calendar"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    tools:text="2021-01-20" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/calendar"
-                android:layout_toRightOf="@+id/calendar"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                tools:text="22-02-20" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/l1"
+                android:layout_toRightOf="@+id/l1"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/pistas"
-                android:layout_width="26dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toEndOf="@+id/fecha"
-                android:layout_toRightOf="@+id/fecha"
-                android:src="@drawable/pistas" />
+                <ImageView
+                    android:id="@+id/pistas_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/patitas" />
 
-            <TextView
-                android:id="@+id/pistas_number"
+                <TextView
+                    android:id="@+id/text_pistas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/calendar"
+                    android:layout_toRightOf="@+id/calendar"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    tools:text="Pistas" />
+
+                <TextView
+                    android:id="@+id/pistasnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/calendar"
+                    android:layout_toRightOf="@+id/calendar"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    tools:text="3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/pistas"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/pistas"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                tools:text="3" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/l2"
+                android:layout_toRightOf="@+id/l1"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/levelimage"
-                android:layout_width="26dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toEndOf="@+id/pistas_number"
-                android:layout_toRightOf="@+id/pistas_number"
-                android:src="@drawable/level" />
+                <ImageView
+                    android:id="@+id/dificultad_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/level" />
 
-            <TextView
-                android:id="@+id/level"
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/calendar"
+                    android:layout_toRightOf="@+id/calendar"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    tools:text="level" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/levelimage"
-                android:layout_toRightOf="@+id/levelimage"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                tools:text="easy" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/l3"
+                android:layout_toRightOf="@+id/l1"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/scoreimage"
-                android:layout_width="26dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="3dp"
-                android:layout_toStartOf="@+id/puntos"
-                android:layout_toRightOf="@+id/puntos"
-                android:src="@drawable/estrella_global"
-                android:layout_toLeftOf="@+id/puntos" />
+                <ImageView
+                    android:id="@+id/scoreimage"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toStartOf="@+id/puntos"
+                    android:layout_toLeftOf="@+id/puntos"
+                    android:layout_toRightOf="@+id/puntos"
+                    android:src="@drawable/estrella_global" />
 
-            <TextView
-                android:id="@+id/puntos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                tools:text="1000" />
+                <TextView
+                    android:id="@+id/puntos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    tools:text="1000" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
