@@ -155,13 +155,15 @@ class game : AppCompatActivity() {
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
+            status(memoria, settings)
+
             if(finish==false){
                 puntuacion(settings, db)
             }else{
+
                 val puntuaciones = Intent(this@game, final_score::class.java)
                 startActivity(puntuaciones)
             }
-            status(memoria, settings)
 
         }
 
@@ -201,13 +203,13 @@ class game : AppCompatActivity() {
                 opcion3Button.setText(lsans[2].answer_text)
                 opcion4Button.setText(lsans[3].answer_text)
             }
+            status(memoria, settings)
             if(finish==false){
                 puntuacion(settings, db)
-            }else{
+           }else{
                 val puntuaciones = Intent(this@game, final_score::class.java)
                 startActivity(puntuaciones)
             }
-            status(memoria, settings)
         }
         if (settings.hints == 0) questionText.isClickable = false
 
@@ -437,9 +439,8 @@ class game : AppCompatActivity() {
                         break
 //                        buttonArrayAux[0].isEnabled = false
 //                        buttonArrayAux[1].isEnabled = false
-//                        buttonArrayAux[2].isEnabled = false
+//                         buttonArrayAux[2].isEnabled = false
                     }
-
                 }
 //                if (settings.dificulty > 1)
             } else {
@@ -494,7 +495,7 @@ class game : AppCompatActivity() {
                 puntos=((correctas-cheats)/questions.size.toDouble())*100
             }
 
-            db.scoresDao().InsertScoreManual(fecha,settings.userid,usuario_activo.name,memory.size,correctas,cheats,puntos)
+            db.scoresDao().InsertScoreManual(fecha,settings.userid,usuario_activo.name,settings.dificulty,memory.size,correctas,cheats,puntos)
         }
 
     }

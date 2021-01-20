@@ -49,7 +49,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_first"
+                        android:id="@+id/user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -67,8 +67,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/img_puntos"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/estrella_global"/>
                     <TextView
                         android:id="@+id/puntos"
                         android:layout_width="wrap_content"
@@ -81,31 +87,34 @@
                         android:textColor="#FF000000"
                         android:textSize="24sp" />
 
+
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/img_first"
+                        android:id="@+id/img_cheats"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="5dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_second"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp" />
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/patitas"/>
+                    <TextView
+                        android:id="@+id/cheats_number"
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="text"
+                        android:text="3"
+                        android:textColor="#FF000000"
+                        android:textSize="24sp" />
 
                 </LinearLayout>
 

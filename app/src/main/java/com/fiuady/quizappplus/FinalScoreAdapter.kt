@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.fiuady.quizappplus.db.Scores
 
-class FinalScoreAdapter  (private val detailpuntos : Array<final>) : RecyclerView.Adapter<FinalScoreAdapter.finalHolder>() {
+class FinalScoreAdapter  (private val detailpuntos : Array<Scores>) : RecyclerView.Adapter<FinalScoreAdapter.finalHolder>() {
 
     class finalHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -18,9 +19,9 @@ class FinalScoreAdapter  (private val detailpuntos : Array<final>) : RecyclerVie
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: finalHolder, position: Int) {
 
-        holder.view.findViewById<TextView>(R.id.fecha).text=detailpuntos[position].name
-        holder.view.findViewById<TextView>(R.id.pistas_number).text= detailpuntos[position].Pistas.toString()
-        holder.view.findViewById<TextView>(R.id.puntos).text= detailpuntos[position].Puntos.toString()
+        holder.view.findViewById<TextView>(R.id.user).text=detailpuntos[position].user_name
+        holder.view.findViewById<TextView>(R.id.pistas).text= detailpuntos[position].cheats.toString()
+        holder.view.findViewById<TextView>(R.id.puntos_globales).text= detailpuntos[position].ppartida.toString()
 
     }
     // Return the size of your dataset (invoked by the layout manager)

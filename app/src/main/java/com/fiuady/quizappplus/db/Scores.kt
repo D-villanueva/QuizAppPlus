@@ -12,8 +12,9 @@ data class Scores (
     @ColumnInfo(name = "fecha", ) var fecha :String?,
     @ColumnInfo(name = "user_id") val user_id : Int?,
     @ColumnInfo(name="user_name") val user_name:String?,
+    @ColumnInfo(name="dificultad", defaultValue = "0") val dificultad:Int?,
     @ColumnInfo(name = "preguntas",defaultValue = "0") var questionT : Int?,
     @ColumnInfo(name = "correctas",defaultValue = "0") var correct : Int?,
-    @ColumnInfo(name = "cheats", defaultValue = "0") var finish : Int,
+    @ColumnInfo(name = "cheats", defaultValue = "0") var cheats : Int,
     @ColumnInfo(name = "ppartida", defaultValue = "0") var ppartida:Double
 )

@@ -19,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:padding="6dp">
 
@@ -49,34 +49,35 @@
 
             <ImageView
                 android:id="@+id/pistas_figura"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/pistas"
                 android:layout_toLeftOf="@+id/pistas"
-                android:src="@drawable/estrella_global" />
+                android:src="@drawable/patitas" />
 
 
             <TextView
                 android:id="@+id/pistas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                tools:text="pistas"/>
+                tools:text="pistas" />
 
 
             <ImageView
                 android:id="@+id/iconpuntos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/puntos_globales"
                 android:layout_toLeftOf="@+id/puntos_globales"
                 android:src="@drawable/estrella_global" />
+
 
             <TextView
                 android:id="@+id/puntos_globales"
