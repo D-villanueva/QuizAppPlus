@@ -22,7 +22,7 @@ import java.util.ArrayList
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: globalesHolder, position: Int) {
 
-        holder.view.findViewById<TextView>(R.id.user).text=puntosusers[position].userid.toString()
+        holder.view.findViewById<TextView>(R.id.user).text=puntosusers[position].name
         holder.view.findViewById<TextView>(R.id.puntos_globales).text= puntosusers[position].suma.toString()
         holder.itemView.setOnClickListener {
             onUserClickListener.onUserClicked(position)

@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/fecha"
+        android:icon="@drawable/calendaritem"
+        app:showAsAction="always"
+        android:title="fecha" />
+
+    <item
         android:id="@+id/puntospartida"
         android:icon="@drawable/order"
         app:showAsAction="always"
