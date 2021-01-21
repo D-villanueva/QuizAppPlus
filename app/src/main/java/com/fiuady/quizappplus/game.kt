@@ -32,11 +32,11 @@ class game : AppCompatActivity() {
     var lsans = mutableListOf<Questions_Answers>()
     var currentQuestionIndex = 0
     var buttonArrayAux = arrayListOf<Button>()
-    var puntos :Double=0.0
-    var contestadas=0
-    var correctas=0
-    var cheats=0
-    var finish =false
+    var puntos: Double = 0.0
+    var contestadas = 0
+    var correctas = 0
+    var cheats = 0
+    var finish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,6 +127,20 @@ class game : AppCompatActivity() {
             val arrayidAns = arregloAnsAux.split(" ")?.map { it.toInt() }?.toTypedArray()
             var lsAnsaux = db.questionanswerDao().getanswer(arrayidAns)
             lsans.clear()
+
+            if (finish == false) {
+                puntuacion(settings, db)
+            }
+            if(finish==true) {
+                val memoria = db.questionmemoryDao().getpending(activeuser.id)
+                memoria.finish = 0
+                memoria.questionAry = ""
+                memoria.currentquestion = 0
+                db.questionmemoryDao().updatequestionmemory(memoria)
+                val puntuaciones = Intent(this@game, final_score::class.java)
+                startActivity(puntuaciones)
+            }
+
             for (indice in arrayidAns) {
                 for (answer in lsAnsaux) {
                     if (answer.id == indice) {
@@ -153,13 +167,6 @@ class game : AppCompatActivity() {
             }
             status(memoria, settings)
 
-            if(finish==false){
-                puntuacion(settings, db)
-            }else{
-
-                val puntuaciones = Intent(this@game, final_score::class.java)
-                startActivity(puntuaciones)
-            }
 
         }
 
@@ -200,9 +207,10 @@ class game : AppCompatActivity() {
                 opcion4Button.setText(lsans[3].answer_text)
             }
             status(memoria, settings)
-            if(finish==false){
+            if (finish == false) {
                 puntuacion(settings, db)
-           }else{
+            } else {
+
                 val puntuaciones = Intent(this@game, final_score::class.java)
                 startActivity(puntuaciones)
             }
@@ -210,7 +218,7 @@ class game : AppCompatActivity() {
         if (settings.hints == 0) questionText.isClickable = false
 
         questionText.setOnClickListener {
-            if (settings.hintsquantity== memoryactual.cheats){
+            if (settings.hintsquantity == memoryactual.cheats) {
                 Toast.makeText(this, "NO more cheats", Toast.LENGTH_SHORT).show()
             } else {
                 memoryactual.cheats++
@@ -463,30 +471,29 @@ class game : AppCompatActivity() {
     }
 
     fun puntuacion(settings: Settings, db: AppDatabase) {
-        var contestadas=0
-        var cheats=0
-        var correctas=0
+        var contestadas = 0
+        var cheats = 0
+        var correctas = 0
 
-       val pattern = "yyyy-MM-dd"
+        val pattern = "yyyy-MM-dd"
         val simpleDateFormat = SimpleDateFormat(pattern)
         val fecha = simpleDateFormat.format(Date()).toString()
 
-        var usuario_activo=db.usersDao().getActiveUser()
-        var memory= db.answermemoryDao().getAnswerarraybyid(settings.userid)
-        for(i in 0 until memory.size){
-            if(memory[i].status==1)correctas++
-            if(memory[i].status!=0)contestadas++
-            if(memory[i].cheats!=0)cheats++
+        var usuario_activo = db.usersDao().getActiveUser()
+        var memory = db.answermemoryDao().getAnswerarraybyid(settings.userid)
+        for (i in 0 until memory.size) {
+            if (memory[i].status == 1) correctas++
+            if (memory[i].status != 0) contestadas++
+            if (memory[i].cheats != 0) cheats++
         }
-        if (contestadas == questions.size) {
-            finish=true
+        if (contestadas == (questions.size)) {
+            finish = true
 
-            if(settings.dificulty==3){
-                puntos=((correctas-cheats)/questions.size.toDouble())*100
+            if (settings.dificulty == 3) {
+                puntos = ((correctas - cheats) / questions.size.toDouble()) * 100
             }
-            if(settings.dificulty==1 || settings.dificulty ==2)
-            {
-                puntos=((correctas-cheats)/questions.size.toDouble())*100
+            if (settings.dificulty == 1 || settings.dificulty == 2) {
+                puntos = ((correctas - cheats) / questions.size.toDouble()) * 100
             }
 
             db.scoresDao().InsertScoreManual(
@@ -499,19 +506,20 @@ class game : AppCompatActivity() {
                 cheats,
                 puntos
             )
+
         }
 
     }
 
 
-    fun exitgame(db:AppDatabase){
+    fun exitgame(db: AppDatabase) {
         val exitgame = AlertDialog.Builder(this)
         exitgame.setTitle("Exit Game")
         exitgame.setMessage("Deseas salir de tu partida actual?")
         exitgame.setPositiveButton("OK") { _, id ->
             val usuario_activo = db.usersDao().getActiveUser()
-            val pendiente=db.questionmemoryDao().getpending(usuario_activo.id)
-            pendiente.finish==1
+            val pendiente = db.questionmemoryDao().getpending(usuario_activo.id)
+            pendiente.finish == 1
             db.questionmemoryDao().updatequestionmemory(pendiente)
             finish()
         }.setNegativeButton("CANCEL") { dialog, id -> dialog.cancel() }
@@ -523,13 +531,13 @@ class game : AppCompatActivity() {
     override fun onBackPressed() {
         val dbBuilder: DbBuilder by viewModels()
         val db = dbBuilder.buildBd(this)
-        if(finish==true){
+        if (finish == true) {
             val usuario_activo = db.usersDao().getActiveUser()
-            val pendiente=db.questionmemoryDao().getpending(usuario_activo.id)
-            pendiente.finish=0
+            val pendiente = db.questionmemoryDao().getpending(usuario_activo.id)
+            pendiente.finish = 0
             db.questionmemoryDao().updatequestionmemory(pendiente)
             finish()
-        }else{
+        } else {
             exitgame(db)
         }
     }
