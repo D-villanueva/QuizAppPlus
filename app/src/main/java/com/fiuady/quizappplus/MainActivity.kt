@@ -176,7 +176,6 @@ class MainActivity : AppCompatActivity() {
         builder.setCancelable(false)
 
         var usuario_text: EditText = medio.findViewById(R.id.username)
-
         builder.setPositiveButton("OK") { _, id ->
             db.usersDao().InsertUser(usuario_text.text.toString(), 1)
             var new_useradd = db.usersDao().getNewUser(usuario_text.text.toString())

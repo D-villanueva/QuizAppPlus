@@ -9,10 +9,10 @@ import androidx.room.PrimaryKey
 data class Settings (
     @PrimaryKey var userid: Int,
     @ColumnInfo (defaultValue = "5" )var questionquantity:Int,
-    @ColumnInfo(defaultValue = "1")var ciencia:Int,
+    @ColumnInfo(defaultValue = "0")var ciencia:Int,
     @ColumnInfo(defaultValue = "0")var cine:Int,
     @ColumnInfo(defaultValue = "0")var deporte:Int,
-    @ColumnInfo(defaultValue = "0")var musica:Int,
+    @ColumnInfo(defaultValue = "1")var musica:Int,
     @ColumnInfo(defaultValue = "0")var arte:Int,
     @ColumnInfo(defaultValue = "0")var videojuegos:Int,
     @ColumnInfo(defaultValue = "1")var dificulty:Int,

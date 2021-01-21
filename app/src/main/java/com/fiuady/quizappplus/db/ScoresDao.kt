@@ -17,7 +17,7 @@ interface ScoresDao {
      @Query("SELECT partida_id, user_name, cheats, ppartida FROM scores ORDER BY ppartida DESC,cheats ASC LIMIT 5 ")
      fun getpuntosaltos():Array<Scores>
 
-     @Query("SELECT partida_id,user_id AS userid, user_name AS name,cheats,ppartida, SUM(ppartida) AS suma FROM scores GROUP BY user_id ORDER BY ppartida ASC")
+     @Query("SELECT partida_id,user_id AS userid, user_name AS name,cheats,ppartida, SUM(ppartida) AS suma FROM scores GROUP BY user_id ORDER BY SUM(ppartida) DESC")
      fun getglobalesscore():Array<SumPojo>
 
          @Query("SELECT * FROM scores WHERE user_id=(:userid) ORDER BY ppartida DESC")
