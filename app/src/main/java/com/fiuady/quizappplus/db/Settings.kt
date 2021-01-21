@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "settings")
+
 data class Settings (
     @PrimaryKey var userid: Int,
     @ColumnInfo (defaultValue = "5" )var questionquantity:Int,
