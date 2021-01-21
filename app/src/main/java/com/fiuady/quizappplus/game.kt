@@ -526,7 +526,7 @@ class game : AppCompatActivity() {
         if(finish==true){
             val usuario_activo = db.usersDao().getActiveUser()
             val pendiente=db.questionmemoryDao().getpending(usuario_activo.id)
-            pendiente.finish==0
+            pendiente.finish=0
             db.questionmemoryDao().updatequestionmemory(pendiente)
             finish()
         }else{
