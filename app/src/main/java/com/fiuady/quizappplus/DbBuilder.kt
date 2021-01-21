@@ -10,6 +10,7 @@ import com.fiuady.quizappplus.db.Questions
 
 class DbBuilder:ViewModel() {
 
+
     fun buildBd(context: Context) :AppDatabase{
         val db = Room.databaseBuilder(
             context,

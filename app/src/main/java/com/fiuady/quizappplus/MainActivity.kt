@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawer: DrawerLayout
     var questionstoint = arrayListOf<Int>()
     var answerary = arrayListOf<Int>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val dbBuilder: DbBuilder by viewModels()
         Stetho.initializeWithDefaults(this);
         val db = dbBuilder.buildBd(this)
-        val usuario_activo = db.usersDao().getActiveUser()
+        var usuario_activo = db.usersDao().getActiveUser()
 
         jugar_button = findViewById(R.id.jugar_button)
         opciones_button = findViewById(R.id.opciones_button)
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         TextInicio.typeface = Typeface.createFromAsset(assets, "fonts/Balamoa.ttf")
 
         jugar_button.setOnClickListener { _ ->
-
+            usuario_activo = db.usersDao().getActiveUser()
             val questionmemory = db.questionmemoryDao().getpending(usuario_activo.id)
             val settings = db.settingsDao().getsettings(usuario_activo.id)
 
@@ -125,11 +126,13 @@ class MainActivity : AppCompatActivity() {
 
         }
         opciones_button.setOnClickListener { _ ->
+            usuario_activo = db.usersDao().getActiveUser()
             val option = Intent(this@MainActivity, Opciones::class.java)
             startActivity(option)
 
         }
         puntuaciones_button.setOnClickListener { _ ->
+            usuario_activo = db.usersDao().getActiveUser()
             val puntuaciones = Intent(this@MainActivity, Puntuaciones::class.java)
             startActivity(puntuaciones)
         }
