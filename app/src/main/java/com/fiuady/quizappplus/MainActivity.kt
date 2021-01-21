@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val header: View = navView.getHeaderView(0)
         var usuario: TextView = header.findViewById(R.id.user_activenow)
-        usuario.text = usuario_activo.name
+
 
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
         if (db.usersDao().getNumber() == 0) {
-            dialogoUser(db)
+           firstuser(db)
+          // usuario.text = usuario_activo.name
         }
 
         TextInicio = findViewById(R.id.titulo)
@@ -115,7 +116,6 @@ class MainActivity : AppCompatActivity() {
                     db.answermemoryDao().insertAnsMem(usuario_activo.id, it.id, answerary.toString())
 
                 }
-
 
                 val game = Intent(this, game::class.java)
                 startActivity(game)
@@ -157,6 +157,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun firstuser(db:AppDatabase){
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this@MainActivity).context.getSystemService(
+            LAYOUT_INFLATER_SERVICE
+        ) as LayoutInflater
+
+        val medio = inflater.inflate(R.layout.agregar_usuarios, null)
+
+        builder.setTitle("First User")
+        builder.setView(medio).setPositiveButton("Ok") { dialog, id -> dialog.cancel() }
+        builder.setIcon(R.drawable.face_global)
+        builder.setCancelable(false)
+
+        var usuario_text: EditText = medio.findViewById(R.id.username)
+
+        builder.setPositiveButton("OK") { _, id ->
+            db.usersDao().InsertUser(usuario_text.text.toString(), 1)
+            var new_useradd = db.usersDao().getNewUser(usuario_text.text.toString())
+            db.settingsDao().insertbyid(new_useradd.id)
+            db.questionmemoryDao().insertbyid(new_useradd.id)
+        }
+        builder.create()
+        builder.show()
+
+
     }
 
     private fun changeUser() {
@@ -268,7 +295,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(game)
             }
 
-        continuegame.setIcon(R.drawable.face_global)
+        continuegame.setIcon(R.drawable.videogame)
         continuegame.create()
         continuegame.show()
     }

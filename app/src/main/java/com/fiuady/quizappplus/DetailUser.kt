@@ -43,7 +43,6 @@ class DetailUser : AppCompatActivity() {
         }
 
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.perfilmenu, menu)
         return true

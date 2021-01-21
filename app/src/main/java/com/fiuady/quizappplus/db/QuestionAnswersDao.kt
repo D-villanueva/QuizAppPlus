@@ -2,6 +2,7 @@ package com.fiuady.quizappplus.db
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface QuestionAnswersDao {
@@ -13,4 +14,6 @@ interface QuestionAnswersDao {
 
     @Query("SELECT * FROM questions_answers WHERE id in (:arryid)")
     fun getanswer(arryid:Array<Int>):List<Questions_Answers>
+
+
 }

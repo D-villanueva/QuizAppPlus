@@ -19,8 +19,6 @@ class DbBuilder:ViewModel() {
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (0, 'Diego', 0)")
-                    db.execSQL("INSERT INTO users(id, nombre, activo) VALUES (1, 'David', 1)")
                     //temas
                     db.execSQL("INSERT INTO themes (id, title) VALUES (0, 'Cine')");
                     db.execSQL("INSERT INTO themes (id, title) VALUES (1, 'Musica')");
@@ -66,8 +64,6 @@ class DbBuilder:ViewModel() {
                     db.execSQL("INSERT INTO questions VALUES (30,5,'¿Cómo se llama la ciudad en la que se desenvuelve Resident Evil?')")
 
                     //settings
-                    db.execSQL("INSERT INTO settings VALUES (1,5,1,0,0,0,0,0,1,0,1, '2')")
-
                     //questions_answers
                     db.execSQL("INSERT INTO questions_answers VALUES (1,1,'El Gran Dictador',1)")
                     db.execSQL("INSERT INTO questions_answers VALUES (2,1,'Vida de Perros',0)")

@@ -3,11 +3,10 @@ package com.fiuady.quizappplus
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.fiuady.quizappplus.db.*
@@ -63,7 +62,6 @@ class game : AppCompatActivity() {
         }
 
         currentQuestionIndex = memoryactual.currentquestion
-
         questionText = findViewById(R.id.question_text)
         prevButton = findViewById(R.id.prev_button)
         nextButton = findViewById(R.id.next_button)
@@ -504,5 +502,37 @@ class game : AppCompatActivity() {
         }
 
     }
+
+
+    fun exitgame(db:AppDatabase){
+        val exitgame = AlertDialog.Builder(this)
+        exitgame.setTitle("Exit Game")
+        exitgame.setMessage("Deseas salir de tu partida actual?")
+        exitgame.setPositiveButton("OK") { _, id ->
+            val usuario_activo = db.usersDao().getActiveUser()
+            val pendiente=db.questionmemoryDao().getpending(usuario_activo.id)
+            pendiente.finish==1
+            db.questionmemoryDao().updatequestionmemory(pendiente)
+            finish()
+        }.setNegativeButton("CANCEL") { dialog, id -> dialog.cancel() }
+        exitgame.setIcon(R.drawable.videogame)
+        exitgame.create()
+        exitgame.show()
+    }
+
+    override fun onBackPressed() {
+        val dbBuilder: DbBuilder by viewModels()
+        val db = dbBuilder.buildBd(this)
+        if(finish==true){
+            val usuario_activo = db.usersDao().getActiveUser()
+            val pendiente=db.questionmemoryDao().getpending(usuario_activo.id)
+            pendiente.finish==0
+            db.questionmemoryDao().updatequestionmemory(pendiente)
+            finish()
+        }else{
+            exitgame(db)
+        }
+    }
+
 
 }

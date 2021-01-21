@@ -13,7 +13,6 @@ interface QuestionmemoryDao {
     @Query("SELECT * FROM questionmemory WHERE user_id = (:userid)")
     fun getpending(userid: Int) : Questionmemory
 
-
     @Update
     fun updatequestionmemory(questionmemory: Questionmemory)
 }
