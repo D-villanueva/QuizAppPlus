@@ -36,14 +36,7 @@ class ChangeUser : AppCompatActivity() {
         Listusers.adapter = adapter
 
         Listusers.setOnItemClickListener { parent, view, position, id ->
-            val uposition = nombres.get(position)
-            val usuario_actual = db.usersDao().getActiveUser()
-            usuario_actual.active=0
-            db.usersDao().updateUser(usuario_actual)
-            val new_user=db.usersDao().getNewUser(uposition)
-            new_user.active=1
-            db.usersDao().updateUser(new_user)
-            finish()
+
             if(option==1){
                 val uposition = nombres.get(position)
                 val usuario_actual = db.usersDao().getActiveUser()
@@ -53,6 +46,15 @@ class ChangeUser : AppCompatActivity() {
                 db.usersDao().updateUser(new_user)
                 finish()
             }
+            val uposition = nombres.get(position)
+            val usuario_actual = db.usersDao().getActiveUser()
+            usuario_actual.active=0
+            db.usersDao().updateUser(usuario_actual)
+            val new_user=db.usersDao().getNewUser(uposition)
+            new_user.active=1
+            db.usersDao().updateUser(new_user)
+            finish()
+
         }
 
         searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
