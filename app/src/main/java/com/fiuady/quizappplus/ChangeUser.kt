@@ -40,7 +40,9 @@ class ChangeUser : AppCompatActivity() {
             if(option==1){
                 val uposition = nombres.get(position)
                 val usuario_actual = db.usersDao().getActiveUser()
+                db.scoresDao().deleteById(usuario_actual.id)
                 db.usersDao().deleteById(usuario_actual.id)
+
                 val new_user=db.usersDao().getNewUser(uposition)
                 new_user.active=1
                 db.usersDao().updateUser(new_user)

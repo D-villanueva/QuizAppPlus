@@ -35,5 +35,8 @@ interface ScoresDao {
     @Update
     fun updateScore(scores: Scores)
 
+    @Query("DELETE FROM scores WHERE user_id = (:id)")
+    fun deleteById(id: Int)
+
 
 }
