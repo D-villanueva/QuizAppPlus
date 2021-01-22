@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".Opciones">
-
+    android:orientation="vertical">
     <Space
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        >
         <TextView
             android:id="@+id/eligetema_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:text="Elige un tema"
             android:textAllCaps="true"
@@ -38,15 +36,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
 
         <LinearLayout
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/todos_checkbox"
@@ -58,18 +58,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Todos"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <CheckBox
 
@@ -79,7 +77,7 @@
 
             <ImageView
                 android:id="@+id/ciencia_img"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:src="@drawable/ciencia_text" />
@@ -88,14 +86,25 @@
 
                 android:id="@+id/cine_checkbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:layout_marginLeft="140dp" />
 
             <ImageView
                 android:id="@+id/cine_img"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:src="@drawable/cine_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
 
             <CheckBox
 
@@ -105,10 +114,25 @@
 
             <ImageView
                 android:id="@+id/deporte_img"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:src="@drawable/deporte_text" />
+
+            <CheckBox
+
+                android:id="@+id/musica_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:layout_marginLeft="140dp" />
+
+            <ImageView
+                android:id="@+id/musica_img"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:src="@drawable/musica_text" />
 
         </LinearLayout>
 
@@ -116,22 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-
-
-            <CheckBox
-
-                android:id="@+id/musica_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:id="@+id/musica_img"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/musica_text"
-                android:layout_margin="2dp"
-                />
+            android:orientation="horizontal">
 
             <CheckBox
 
@@ -141,45 +150,42 @@
 
             <ImageView
                 android:id="@+id/arte_img"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/arte_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/arte_text" />
 
             <CheckBox
 
                 android:id="@+id/videojuegos_checkbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:layout_marginLeft="140dp" />
 
             <ImageView
                 android:id="@+id/videojuegos_img"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/videojuegos_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/videojuegos_text" />
 
 
         </LinearLayout>
 
     </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/spinner_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="n_preguntas"
+            android:text="N° preguntas"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
@@ -190,43 +196,17 @@
             android:layout_marginStart="50dp"
             tools:ignore="InvalidId"
             android:layout_marginLeft="100dp" />
-        <TextView
-            android:id="@+id/spinnerpistas_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N° de Pistas"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
-        <Spinner
-            android:id="@+id/numero_pistas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
     </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
-    <Switch
-        android:id="@+id/pistas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="habilitar_pistas"
-        />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <RadioGroup
         android:id="@+id/radioGroup1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        >
+
 
         <RadioButton
             android:checked="true"
@@ -249,7 +229,38 @@
             android:text="Nivel Bajo"/>
     </RadioGroup>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
+    <Switch
+        android:id="@+id/pistas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Habilitar pistas"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/spinnerpistas_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N° de Pistas"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <Spinner
+            android:id="@+id/numero_pistas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"

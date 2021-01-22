@@ -45,8 +45,8 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/todos_checkbox"
@@ -58,10 +58,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Todos"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
         </LinearLayout>
+
         <LinearLayout
 
             android:layout_width="wrap_content"
@@ -74,27 +75,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
+                android:id="@+id/ciencia_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/ciencia"/>
+
+            <ImageView
                 android:id="@+id/ciencia_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ciencia_text"
-                android:layout_margin="2dp"
-                />
+                android:layout_margin="1dp"
+                android:src="@drawable/ciencia_text" />
+
 
             <CheckBox
 
                 android:id="@+id/cine_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:layout_marginLeft="140dp" />
+                android:layout_marginStart="70dp"
+                android:layout_marginLeft="70dp" />
+            <ImageView
+                android:id="@+id/cine_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/cine"/>
+
             <ImageView
                 android:id="@+id/cine_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/cine_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/cine_text" />
 
         </LinearLayout>
 
@@ -105,35 +119,44 @@
             android:orientation="horizontal">
 
 
-
             <CheckBox
-
                 android:id="@+id/deporte_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/deporte_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/deporte"/>
 
             <ImageView
                 android:id="@+id/deporte_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/deporte_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/deporte_text" />
 
             <CheckBox
 
                 android:id="@+id/musica_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:layout_marginLeft="140dp" />
+                android:layout_marginStart="70dp"
+                android:layout_marginLeft="70dp" />
+            <ImageView
+                android:id="@+id/musica_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/musica"/>
+
             <ImageView
                 android:id="@+id/musica_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/musica_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/musica_text" />
 
         </LinearLayout>
 
@@ -144,34 +167,44 @@
             android:orientation="horizontal">
 
             <CheckBox
-
                 android:id="@+id/arte_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/arte_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/arte"/>
 
             <ImageView
                 android:id="@+id/arte_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/arte_text"
-                android:layout_margin="2dp"
-                />
+                android:layout_margin="1dp"
+                android:src="@drawable/arte_text" />
 
             <CheckBox
 
                 android:id="@+id/videojuegos_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:layout_marginLeft="140dp" />
+                android:layout_marginStart="70dp"
+                android:layout_marginLeft="70dp" />
+
+            <ImageView
+                android:id="@+id/videojuego_logo"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:src="@drawable/videojuego"/>
 
             <ImageView
                 android:id="@+id/videojuegos_img"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/videojuegos_text"
                 android:layout_margin="2dp"
-                />
+                android:src="@drawable/videojuegos_text" />
 
 
         </LinearLayout>
