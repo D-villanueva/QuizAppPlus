@@ -257,7 +257,7 @@ class game : AppCompatActivity() {
         opcion3Button.setOnClickListener {
             memoria.resp = 3
 
-            if (lsans[1].answer == 1) {
+            if (lsans[2].answer == 1) {
                 memoria.status = 1
             } else {
                 memoria.status = 2
@@ -269,7 +269,7 @@ class game : AppCompatActivity() {
         opcion4Button.setOnClickListener {
             memoria.resp = 4
 
-            if (lsans[1].answer == 1) {
+            if (lsans[3].answer == 1) {
                 memoria.status = 1
             } else {
                 memoria.status = 2
